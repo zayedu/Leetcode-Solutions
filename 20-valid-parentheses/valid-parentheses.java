@@ -1,4 +1,3 @@
-
 class Solution {
     public boolean isValid(String s) {
         ArrayList<Character> a = new ArrayList<Character>();
