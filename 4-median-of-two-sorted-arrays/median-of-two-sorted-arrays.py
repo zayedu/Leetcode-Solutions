@@ -1,30 +1,29 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        if len(nums1) > len(nums2):
-            nums1, nums2 = nums2, nums1
-        
+        # T: O(log min(m, n)), S: O(1)
+        A, B = nums1, nums2
         total = len(nums1) + len(nums2)
-        half = total//2
-        l, r = 0, len(nums1)-1
+        half = total // 2
+
+        # Guarantees A is smaller of the two
+        if len(B) < len(A):
+            A, B = B, A
+
+        l, r = 0, len(A) - 1
         while True:
-            mid = (l+r) // 2    # mid index of array of short list
-            # total include actual length +2 of merged list , here we have 2 index for 2 
-            #  different list bith include 0 index so for removing that we have to subtract
-            # 2 from comp_mid which is long list.
-            comp_mid = (half -2)- mid
-        
-            leftA = nums1[mid] if mid >=0 else float("-inf")
-            rightA = nums1[mid+1] if (mid+1) < len(nums1) else float("inf")
-            leftB = nums2[comp_mid] if comp_mid >= 0 else float("-inf")
-            rightB = nums2[comp_mid+1] if (comp_mid+1) < len(nums2) else float("inf")
+            A_i = (l + r) >> 1
+            B_i = half - A_i - 2
 
-            if leftA <= rightB and leftB <= rightA:
+            A_left = A[A_i] if A_i >= 0 else -inf
+            A_right = A[A_i + 1] if A_i + 1 < len(A) else inf
+            B_left = B[B_i] if B_i >= 0 else -inf
+            B_right = B[B_i + 1] if B_i + 1 < len(B) else inf
+
+            if A_left <= B_right and B_left <= A_right:
                 if total % 2 == 0:
-                    return (max(leftA, leftB)+ min(rightA, rightB))/2
-                else:
-                    return min(rightA, rightB)
-
-            elif leftA > rightB:
-                r = mid -1
+                    return (max(A_left, B_left) + min(A_right, B_right)) / 2
+                return min(A_right, B_right)
+            elif A_left > B_right:
+                r = A_i - 1
             else:
-                l = mid +1
+                l = A_i + 1
