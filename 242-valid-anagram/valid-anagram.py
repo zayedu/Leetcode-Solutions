@@ -1,22 +1,20 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        my_dict = dict()
-        for i in range (0,len(s)):
-            if s[i] not in my_dict:
-                my_dict[s[i]] = 1 
-            else:
-                my_dict[s[i]] += 1
-
-        for i in range (0,len(t)):
-            if t[i] not in my_dict:
-                return False
-
-            my_dict[t[i]] -= 1
+        if len(s) != len(t):
+            return False
         
-        print(my_dict)
+        s_dict = dict()
+        t_dict = dict()
 
-        for i in my_dict.values():
-            if i != 0:
-                return False
+        for i in range (0,len(s)):
+            if s[i] not in s_dict:
+                s_dict[s[i]] = 1
+            else:
+                 s_dict[s[i]] += 1
 
-        return True 
+            if t[i] not in t_dict:
+                t_dict[t[i]] = 1
+            else:
+                t_dict[t[i]] += 1
+            
+        return s_dict == t_dict
