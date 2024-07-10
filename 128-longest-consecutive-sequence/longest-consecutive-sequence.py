@@ -13,8 +13,7 @@ class Solution(object):
                 while (i+length) in nums_set:
                     length += 1
             
-                if length > longest:
-                    longest = length
+                longest = max(length,longest)
 
         return longest
 
