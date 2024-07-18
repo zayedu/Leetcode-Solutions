@@ -9,7 +9,7 @@ class Solution:
             sv += nums[i]
             if sv < 1:
                 i = 0
-                init_sv += 1
+                init_sv = init_sv - sv + 1
                 sv = init_sv
             else:
                 i += 1
