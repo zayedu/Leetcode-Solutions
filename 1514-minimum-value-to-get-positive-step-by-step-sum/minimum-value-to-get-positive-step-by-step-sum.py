@@ -7,12 +7,10 @@ class Solution:
         i = 0
         while i < len(nums):
             sv += nums[i]
-            print(sv)
             if sv < 1:
                 i = 0
                 init_sv += 1
                 sv = init_sv
-                print('###',sv)
             else:
                 i += 1
 
