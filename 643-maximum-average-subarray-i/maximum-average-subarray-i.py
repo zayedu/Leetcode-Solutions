@@ -14,17 +14,14 @@ class Solution(object):
             max_sum += nums[i]
 
         sum_iter = max_sum
-        print(sum_iter)
         sum_iter -= nums[l]
-        print(sum_iter)
+
         
         l += 1
         r += 1
         while r < len(nums):
-            print(nums[r])
-            sum_iter += nums[r]
-            print(sum_iter)
 
+            sum_iter += nums[r]
             max_sum = max(max_sum,sum_iter)
             sum_iter -= nums[l]
             l += 1
