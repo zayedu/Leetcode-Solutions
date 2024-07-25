@@ -6,7 +6,13 @@ class Solution:
             losses[match[0]] += 0
             losses[match[1]] += 1
 
+        no_losses = [ ]
+        one_loss= [ ]
 
-        no_losses = [key for key, value in losses.items() if value == 0]
-        one_loss = [key for key, value in losses.items() if value == 1]
+        for k,v in losses.items():
+            if v == 0:
+                no_losses.append(k)
+            elif v == 1:
+                one_loss.append(k)
+
         return[sorted(no_losses),sorted(one_loss)]
