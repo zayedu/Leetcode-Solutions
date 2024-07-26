@@ -1,16 +1,22 @@
-class Solution(object):
-    def isIsomorphic(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-        map1 = []
-        map2 = []
-        for idx in s:
-            map1.append(s.index(idx))
-        for idx in t:
-            map2.append(t.index(idx))
-        if map1 == map2:
-            return True
-        return False
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        transformations = { }
+
+        '''
+        transformations should look like s[i] - > t[i]
+        '''
+
+        for i in range(len(s)):
+            curr = s[i]
+            should_be = t[i]
+
+            if curr not in transformations:
+                if should_be in transformations.values():
+                    return False
+                transformations[s[i]] = t[i]
+
+            else:
+                if transformations[s[i]] != t[i]:
+                    return False
+
+        return True
