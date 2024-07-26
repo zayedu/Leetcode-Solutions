@@ -14,7 +14,8 @@ class Solution(object):
             seen[i] += 1
         result = [ ]
         keys = sorted(seen.items(),reverse=True, key = lambda x:x[1])
-        print(keys)
+
         for i in range(k):
             result.append(keys[i][0])
+            
         return result
