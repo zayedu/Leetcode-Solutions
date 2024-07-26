@@ -11,9 +11,7 @@ class Solution:
                 n_as[dig_sum] = i
 
             else:
-                n_as[dig_sum] += i
-                good_arr.append(n_as[dig_sum])
-                n_as[dig_sum] -= i
+                good_arr.append(n_as[dig_sum]+i)
                 n_as[dig_sum] = max(i,n_as[dig_sum])
         
         return max(good_arr)
