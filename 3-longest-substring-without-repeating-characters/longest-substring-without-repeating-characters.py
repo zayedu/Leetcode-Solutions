@@ -16,7 +16,7 @@ class Solution:
                 seen[s[r]] = r
             else:
                 ###Pre conddition: we have a substring with a repeated character
-                max_len = max(max_len,r - l)
+
 
                 while l <= seen[s[r]]:
                     
