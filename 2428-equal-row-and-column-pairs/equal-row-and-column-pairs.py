@@ -1,17 +1,39 @@
-class Solution:
-    def equalPairs(self, grid: List[List[int]]) -> int:
-        seen = {}
+class Solution(object):
+    def equalPairs(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+
+
+        rows = { 
+
+        }
+
+        """
+        row should look like:
+        tuple(row) -> freq
+        """
+
+        for row in grid:
+            if tuple(row) not in rows:
+                rows[tuple(row)] = 1
+            else:
+                rows[tuple(row)] += 1
         ctr = 0
 
-        # Count occurrences of rows
-        for row in grid:
-            row_tuple = tuple(row)
-            seen[row_tuple] = seen.get(row_tuple, 0) + 1
+        for x in range (0,len(grid)):
+            column = []
+            for y in range (0,len(grid)):
+                value = grid[y][x]
+                column.append(value)
 
-        # Check columns against rows
-        for j in range(len(grid)):
-            col = tuple(grid[i][j] for i in range(len(grid)))
-            if col in seen:
-                ctr += seen[col]
+            if column in grid:
+                ctr += rows[tuple(column)]
+
+
 
         return ctr
+                
+
+        
