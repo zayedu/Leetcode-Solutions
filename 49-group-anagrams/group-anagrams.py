@@ -11,12 +11,15 @@ class Solution:
         """
 
         for word in strs:
-
-            if tuple(sorted(word)) not in anagrams:
-                anagrams[tuple(sorted(word))] = [word]
+            chars = [0]*26
+            for char in word:
+                chars[(ord(char)-ord('a'))] += 1
+            chars = tuple(chars)
+            if chars not in anagrams:
+                anagrams[chars] = [word]
 
             else:
-                anagrams[tuple(sorted(word))].append(word)
+                anagrams[chars].append(word)
 
         return anagrams.values()
 
