@@ -1,14 +1,9 @@
-
-
 class Solution:
     def frequencySort(self, s: str) -> str:
-        seen = { }
+        seen = {
 
-        '''
-        seen should look like:
-        char -> occurences
-        '''
-
+        }
+        
         for char in s:
             if char not in seen:
                 seen[char] = 1
@@ -16,32 +11,14 @@ class Solution:
             else:
                 seen[char] += 1
 
-        '''
-        seen:
-        t -> 1
-        r -> 1
-        e -> 2
-        
-        seen.items()
-        [(t,1),(r,1),(e,2)]
-        '''             
+        items = list(seen.items())
 
-        sorted_occurences = sorted(seen.items(),reverse = True, key = lambda x:x[1])
+        items.sort(reverse = True, key = lambda x:x[1])
 
-        '''
-        sorted_occurences:
-        [(e,2),(t,1),(r,1)]
-        '''
-        result = [ ]
 
-        '''
-        result:
-        []
-        [e,t,r]
-        '''
+        print(items)
+        result = ""
+        for char in items:
+            result += (char[0]*char[1])
 
-        for key ,value in sorted_occurences:
-            for addr in range(value):
-                result.append(key)
-        
-        return ''.join(result)
+        return result
