@@ -1,17 +1,27 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        res = {}
+        
+        anagrams = {
 
-        for s in strs:
-            arr = [0] * 26
-            for c in s:
-                arr[ord(c)-ord('a')] += 1
+        }
 
-            if tuple(arr) not in res:
-                res[tuple(arr)] = [s]
+        """
+        anagrams should look like:
+        tuple(Counter(word)) -> (word1,word2,...,word_n)
+        """
+
+        for word in strs:
+
+            if tuple(sorted(word)) not in anagrams:
+                anagrams[tuple(sorted(word))] = [word]
+
             else:
-                res[tuple(arr)].append(s)
+                anagrams[tuple(sorted(word))].append(word)
 
-        return res.values()
+        return anagrams.values()
 
-            
+        """
+        Complexity
+        Time: O(n)
+        Space: O(n)
+        """
