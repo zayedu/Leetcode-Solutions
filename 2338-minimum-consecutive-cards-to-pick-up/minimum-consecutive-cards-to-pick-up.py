@@ -1,17 +1,32 @@
-class Solution:
-    def minimumCardPickup(self, nums: List[int]) -> int:
-        seen = { }
-        min_len = len(nums) + 1
+class Solution(object):
+    def minimumCardPickup(self, cards):
+        """
+        :type cards: List[int]
+        :rtype: int
+        """
 
-        for i in range(0,len(nums)):
+        position = {
 
-            if nums[i] not in seen:
-                seen[nums[i]] = i
+        }
+
+        minimum_distance = len(cards) + 1
+        """
+        position would look like:
+        value -> position
+        """
+
+        for i in range(0,len(cards)):
+            
+            if cards[i] not in position:
+                position[cards[i]] = i
+
             else:
-                min_len = min(min_len,(i - seen[nums[i]] + 1))
-                seen[nums[i]] = i
+                minimum_distance = min(minimum_distance, i - position[cards[i]] + 1)
+                position[cards[i]] = i
 
-        if min_len != len(nums)+1:
-            return min_len
+        if minimum_distance == len(cards)+1:
+            return -1
 
-        return -1
+        return minimum_distance
+
+        
