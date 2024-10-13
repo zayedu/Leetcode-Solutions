@@ -3,22 +3,18 @@ class Solution:
         seen = {
 
         }
-        
-        for char in s:
-            if char not in seen:
-                seen[char] = 1
+        for c in s:
+            if c not in seen:
+                seen[c] = 1
 
             else:
-                seen[char] += 1
+                seen[c] += 1
 
-        items = list(seen.items())
-
-        items.sort(reverse = True, key = lambda x:x[1])
-
-
-        print(items)
         result = ""
-        for char in items:
-            result += (char[0]*char[1])
+        lis = list(seen.items())
+        lis.sort(reverse = True, key = lambda x:x[1])
+        for k,v in lis:
+            result+=(k*v)
+
 
         return result
