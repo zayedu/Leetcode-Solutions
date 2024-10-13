@@ -1,15 +1,28 @@
 class Solution:
     def maxVowels(self, s: str, k: int) -> int:
-        vowel = {'a','e','i','o','u'}
+        vowels = {'a','e','i','o','u'}
 
-        cnt , res, l = 0,0,0
+        max_vow = 0
 
-        for r in range(len(s)):
-            if s[r] in vowel: cnt += 1
+        r_sum = 0
+        l,r=0,0
+        while r in range(len(s)):
+            while (r-l+1) < k:
+                if s[r] in vowels:
+                    r_sum += 1
+                r += 1
 
-            if r - l + 1 > k:
-                if s[l] in vowel: cnt -= 1
-                l += 1
-            res = max(cnt,res)
 
-        return res
+            if s[r] in vowels:
+                r_sum += 1
+            
+            max_vow = max(max_vow, r_sum)
+
+            if s[l] in vowels:
+                r_sum -= 1
+            
+            l += 1
+            r += 1
+
+
+        return max_vow
