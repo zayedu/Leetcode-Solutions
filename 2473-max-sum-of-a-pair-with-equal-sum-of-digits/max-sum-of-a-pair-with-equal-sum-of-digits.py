@@ -1,17 +1,41 @@
 class Solution:
     def maximumSum(self, nums: List[int]) -> int:
-        n_as = { }
-        max_sum = -1
+        seen = {
+
+        }
+
+        def getDigSum(num):
+            str_num = str(num)
+            ans = 0
+            for c in str_num:
+                ans += int(c)
+
+            return ans
+
+
+        """
+        seen should look like:
+        num_sum -> [nums]
+        """        
+
         for i in nums:
-            dig_sum = 0
-            for j in str(i):
-                dig_sum += int(j)
-
-            if dig_sum not in n_as:
-                n_as[dig_sum] = i
-
+            if getDigSum(i) not in seen:
+                seen[getDigSum(i)] = [i]
             else:
-                max_sum = max(max_sum,n_as[dig_sum]+i)
-                n_as[dig_sum] = max(i,n_as[dig_sum])
+                if len(seen[getDigSum(i)]) > 1:
+                    #remove min value
+                    if (min(seen[getDigSum(i)])) < i:
+                        seen[getDigSum(i)].pop(seen[getDigSum(i)].index(min(seen[getDigSum(i)])))
+                        seen[getDigSum(i)].append(i)
+
+                else:
+                    seen[getDigSum(i)].append(i)
         
-        return max_sum
+        max_val = -1
+        print(seen)
+        for k,v in seen.items():
+            if len(v) > 1:
+                max_val = max(max_val,sum(v))
+
+
+        return max_val
