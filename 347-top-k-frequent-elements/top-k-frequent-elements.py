@@ -5,17 +5,33 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        seen = defaultdict(int)
 
-        '''
-        Seen should look like vals -> occurences
-        '''
+        freq = {
+
+        }
+
+        """
+        freq should look like:
+        num -> freq
+        """
+
         for i in nums:
-            seen[i] += 1
-        result = [ ]
-        keys = sorted(seen.items(),reverse=True, key = lambda x:x[1])
+            if i not in freq:
+                freq[i] = 1
 
-        for i in range(k):
-            result.append(keys[i][0])
-            
+            else:
+                freq[i] += 1
+
+
+        freq_pairs = freq.items()
+
+        """
+        [(2,2),(1,3),(3,1)]
+        """
+        freq_pairs.sort(reverse = True, key = lambda x:x[1])
+        result = []
+        for idx in range(k):
+            result.append(freq_pairs[idx][0])
+
         return result
+        
