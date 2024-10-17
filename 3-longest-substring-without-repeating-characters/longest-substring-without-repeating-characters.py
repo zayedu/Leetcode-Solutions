@@ -1,28 +1,26 @@
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        pos = {
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        seen = {
 
         }
 
         """
-        pos should look like:
+        Seen should look like:
         char -> position
         """
+        max_val = 0
 
         l = 0
-        max_len = 0
         for r in range(len(s)):
-            if s[r] not in pos:
-                pos[s[r]] = r
+            if s[r] not in seen:
+                seen[s[r]] = r
+            
             else:
-                while l <= pos[s[r]]:
+                while l <= seen[s[r]]:
                     l += 1
-                pos[s[r]] = r
+                seen[s[r]] = r
 
-            max_len = max(max_len, r-l+1)
+            max_val = max(max_val,r-l+1)
 
-        return max_len
+        return max_val
