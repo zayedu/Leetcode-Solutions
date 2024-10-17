@@ -1,19 +1,22 @@
-class Solution(object):
-    def twoSum(self, nums, k):
-        """
-        :type numbers: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        l,r = 0,len(nums) - 1
-        res = []
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
 
-        while l < r:    
-            if nums[l] + nums[r] > k:
+        l = 0
+        r = len(nums)-1
+
+        while l < r:
+            if nums[l] + nums[r] == target:
+                return [l+1, r+1]
+            elif nums[l] + nums[r] > target:
                 r -= 1
-
-            elif nums[l] + nums[r] < k:
-                l += 1
-
             else:
-                return [l+1,r+1]
+                l += 1 
+
+        return []
+
+
+        """
+        Complexity:
+        Time: O(n)
+        Constant: O(1)
+        """
