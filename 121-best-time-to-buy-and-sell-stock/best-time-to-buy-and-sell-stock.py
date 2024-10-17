@@ -1,20 +1,21 @@
-class Solution(object):
-    def maxProfit(self, prices):
+class Solution:
+    def maxProfit(self, nums: List[int]) -> int:
+        
         """
-        :type prices: List[int]
-        :rtype: int
+        Sliding window:
+        while we have a 
+
         """
         max_profit = 0
 
         l = 0
         r = 1
-        
-        while (r < len(prices)):
-            if (prices[l] < prices[r]):
-                profit = prices[r] - prices[l]
-                max_profit = max(profit,max_profit)
+        while r < len(nums):
+            if nums[r] > nums[l]:
+                max_profit = max(max_profit,nums[r]-nums[l])
+
             else:
                 l = r
+
             r += 1
-            
         return max_profit
