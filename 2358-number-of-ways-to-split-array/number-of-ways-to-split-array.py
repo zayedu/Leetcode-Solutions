@@ -1,25 +1,19 @@
 class Solution:
     def waysToSplitArray(self, nums: List[int]) -> int:
-        val_splits = 0
+        
+        l = 0
+        l_val = 0
 
-        l,r = 0,0
-        l_sum = sum(nums)
-        r_sum = 0
-        val_splits = 0
-        while l < len(nums)-1:
-            r_sum += nums[r]
-            l_sum -= nums[r]
-            
-            if r_sum >= l_sum:
-                val_splits += 1
-            
-            r += 1
+        r_val = sum(nums)
+
+        valid_splits = 0
+
+        for r in range(len(nums)-1):
+            l_val += nums[l]
+            r_val -= nums[l]
+
+            if l_val >= r_val:
+                valid_splits += 1
             l += 1
 
-        return val_splits 
-
-        
-
-
-
-        
+        return valid_splits
