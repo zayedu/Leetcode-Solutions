@@ -1,21 +1,32 @@
 class Solution:
     def customSortString(self, order: str, s: str) -> str:
-        # Count occurrences of each character in s
-        char_count = {}
+
+        freq = {
+
+        }
+
+        """
+        freq should look like:
+        char -> freq
+        """
+
         for char in s:
-            char_count[char] = char_count.get(char, 0) + 1
-        
-        # Build the result string
-        result = []
-        
-        # Add characters from order
+            if char not in freq:
+                freq[char] = 1
+            else:
+                freq[char] += 1
+        res = ""
+
         for char in order:
-            if char in char_count:
-                result.append(char * char_count[char])
-                del char_count[char]
-        
-        # Add remaining characters not in order
-        for char, count in char_count.items():
-            result.append(char * count)
-        
-        return ''.join(result)
+            if char in freq:
+                res += (char*freq[char])
+                freq[char] = 0
+            
+        for char,occ in freq.items():
+            if occ != 0:
+                res += (char*occ)
+
+        return res
+            
+
+
