@@ -1,25 +1,40 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        max_sub = 0
-        l = 0
-        freq_map = {}
+        
+        freq = {
+
+        }
+
         max_freq = 0
 
+        """
+        freq should look like:
+        char_in_window -> freq_in_window
+        """
+
+        max_len = 0
+        l = 0
         for r in range(len(s)):
-            # Update the frequency of the current character
-            if s[r] not in freq_map:
-                freq_map[s[r]] = 1
+            if s[r] not in freq:
+                freq[s[r]] = 1
             else:
-                freq_map[s[r]] += 1
+                freq[s[r]] += 1
+            
+            max_freq = max(max_freq,freq[s[r]])
 
-            # Update the max frequency in the current window
-            max_freq = max(max_freq, freq_map[s[r]])
 
-            if (r - l + 1) - max_freq > k:
 
-                freq_map[s[l]] -= 1
-                l += 1
+            while r - l + 1 > max_freq + k:
+                freq[s[l]] -= 1
+                l += 1 
 
-            max_sub = max(max_sub, r - l + 1)
+            max_len = max(max_len,r - l + 1)
 
-        return max_sub
+        return max_len
+
+
+        """
+        Complexity:
+        Time = O(len(s)) -> O(n)
+        Space = O(n)
+        """
