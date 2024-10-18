@@ -1,33 +1,40 @@
-class Solution(object):
-    def maximumUniqueSubarray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
 
-        pos = {
+        seen = {
 
         }
-
+         
         """
-        position shoud look like:
-        value -> idx
+        Seen hashmap should like:
+        num -> idx
         """
 
-        max_val = 0
-        
-        l = 0
+        max_sum = 0
         r_sum = 0
+
+        l = 0
         for r in range(len(nums)):
             r_sum += nums[r]
-            if nums[r] not in pos:
-                pos[nums[r]] = r
+            if nums[r] not in seen:
+                seen[nums[r]] = r
 
             else:
-                while l <= pos[nums[r]]:
+                while l <= seen[nums[r]]:
                     r_sum -= nums[l]
                     l += 1
-                pos[nums[r]] = r
-            max_val = max(max_val, r_sum)
+                seen[nums[r]] = r
+            
+            max_sum = max(max_sum,r_sum)
 
-        return max_val
+        return max_sum
+
+
+
+        """
+        Complexity:
+        Time = O(n)
+        Space = O(n)
+        where n is the length of nums
+        """
+        
