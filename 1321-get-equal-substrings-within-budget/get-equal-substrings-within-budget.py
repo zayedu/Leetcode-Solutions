@@ -17,4 +17,3 @@ class Solution:
                 max_len = max(my_len,max_len)
             
         return max_len
-        
