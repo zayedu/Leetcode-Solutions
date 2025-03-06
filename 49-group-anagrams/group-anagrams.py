@@ -1,34 +1,23 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        
-        seen = {
+        anagrams = {
 
         }
-
-        """
-        seen should look like:
-        tuple([ordinals of each char]) -> [a1,a2,...,an]
-        """
-
+        '''
+        tuple_id -> anagrams
+        '''
         for word in strs:
-            identifier = [0]*26
-            for char in word:
-                identifier[ord(char)-ord('a')] += 1
+            word_list = [0]*26
 
-            tupled_id = tuple(identifier)
+            for s in word:
 
-            if tupled_id not in seen:
-                seen[tupled_id] = [word]
+                word_list[ord(s)-ord('a')] += 1
 
+            tuple_id = tuple(word_list)
+
+            if tuple_id not in anagrams:
+                anagrams[tuple_id] = [word]
             else:
-                seen[tupled_id].append(word)
+                anagrams[tuple_id].append(word)
 
-        
-        return list(seen.values())
-
-        """ 
-        Complexity:
-        Time: O(w) where w is the sum of the length of all words
-        Space: O(s) where s is the length of strings
-
-        """
+        return list(anagrams.values())
