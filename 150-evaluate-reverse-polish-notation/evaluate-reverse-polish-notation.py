@@ -20,4 +20,9 @@ class Solution:
                 stack.append(int(token))
 
         return stack.pop()
-            
+        
+        '''
+        Complexities:
+        Time = O(n) 
+        Memory = O(n)
+        '''
