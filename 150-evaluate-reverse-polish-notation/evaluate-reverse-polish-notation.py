@@ -1,19 +1,23 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
         stack = [ ]
-        for c in tokens:
-            if c == '+':
+        '''
+        stack should have all numbers, we will always look at the last two nums when we get an operand
+        '''
+        for token in tokens:
+            if token == '+':
                 stack.append(stack.pop()+stack.pop())
-            elif c == '-':
+            elif token == '-':
                 stack.append(-1*stack.pop()+stack.pop())
-            elif c == '*':
+            elif token == '*':
                 stack.append(stack.pop()*stack.pop())
-            elif c == '/':
+            elif token == '/':
                 den = stack.pop()
                 num = stack.pop()
                 stack.append(int(num/den))
-            else:
-                stack.append(int(c))
 
-        return stack[0]
+            else:
+                stack.append(int(token))
+
+        return stack.pop()
             
