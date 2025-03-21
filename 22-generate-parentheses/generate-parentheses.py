@@ -1,15 +1,15 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        #only add ( if open < N
-        #only add ) if closed < open
-        # add to result if closed == open == n
-
+        #if openN < n add (
+        #if openN > closeN add )
+        #if openN == closeN == n
+        
         stack = []
-        res = []
+        ans = []
 
         def backtrack(openN,closeN):
             if openN == closeN == n:
-                res.append("".join(stack))
+                ans.append("".join(stack))
                 return
 
             if openN < n:
@@ -21,5 +21,8 @@ class Solution:
                 stack.append(')')
                 backtrack(openN,closeN+1)
                 stack.pop()
+
         backtrack(0,0)
-        return res
+        return ans
+
+
