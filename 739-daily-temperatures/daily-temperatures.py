@@ -1,22 +1,35 @@
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        answer = [0] * len(temperatures)
+        ans = [0]*len(temperatures)
+        stack = [
 
-        stack = []
+        ]
 
         '''
         stack should look like:
-            [
-                [temp,index],
-                ...,
-            ]
+        stack = [
+            [day(idx),temp],
+            ...,
+            [day(idx),temp],
+        ]
+        
+
+        when we look at this stack we can compare temperatures and access 
+        index and pop when we find a hotter day
         '''
 
-
         for i in range(len(temperatures)):
-            while stack and temperatures[i] > stack[-1][0]:
-                temp, idx = stack.pop()
-                answer[idx] = i - idx
-            stack.append([temperatures[i],i])
+            while stack and stack[-1][1] < temperatures[i]:
+                day ,idx = stack.pop()
+                ans[day] = i - day
+            
+            stack.append([i,temperatures[i]])
 
-        return answer
+        return ans
+
+
+        '''
+        Complexities:
+        Time = O(n)
+        Space = O(n)
+        '''
