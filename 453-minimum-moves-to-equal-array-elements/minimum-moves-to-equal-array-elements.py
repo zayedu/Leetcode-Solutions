@@ -8,3 +8,10 @@ class Solution:
             my_moves += num- min_num 
 
         return my_moves
+
+        '''
+        Complexity:
+            Time: O(2*N) -> O(N)
+            Memory: O(1)
+
+        '''
