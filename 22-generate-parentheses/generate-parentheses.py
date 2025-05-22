@@ -1,23 +1,29 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        ans,sol = [],[]
+        ans,stack = [ ], [ ]
+        #open < n: +open
+        #open = close = n: return stack
+        #open > close: +close
+        def backtrack(openb,closeb):
+            if openb == closeb and openb == n:
+                ans.append(''.join(stack))
+                return 
+            if openb < n:
+                stack.append('(')
+                backtrack(openb+1,closeb)
+                stack.pop()
 
-        def backtrack(openN:int,closeN:int):
-
-            if openN == closeN and openN == n:
-
-                sol.append(''.join(ans))
-                return
-
-            if openN < n:
-                ans.append('(')
-                backtrack(openN+1,closeN)
-                ans.pop()
-
-            if openN > closeN:
-                ans.append(')')
-                backtrack(openN,closeN+1)
-                ans.pop()
+            if openb > closeb:
+                stack.append(')')
+                backtrack(openb,closeb+1)
+                stack.pop()
 
         backtrack(0,0)
-        return sol
+        return ans
+
+        '''
+        Complexity:
+            Time = O(2^n)
+            Memory = O(k) k is the number of possible parentheses combination
+
+        '''
