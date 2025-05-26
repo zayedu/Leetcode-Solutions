@@ -1,25 +1,20 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         closers = {
-            '(' : ')',
-            '[' : ']',
-            '{' : '}'
-        }
+            ')':'(',
+            '}':'{',
+            ']':'['
+        } 
 
-        stack = []
+        stack = [ ]
 
-        for c in s:
-            if c in closers.keys():
-                stack.append(c)
+        for char in s:
+            if char not in closers:
+                stack.append(char)
+
             else:
-                if not stack or c != closers[stack.pop()]:
+                if not stack or stack[-1] != closers[char]:
                     return False
-        
-        return len(stack)==0
+                stack.pop()
 
-
-        '''
-        Complexity:
-        Time = O(n)
-        Space = O(n)
-        '''
+        return len(stack) == 0
