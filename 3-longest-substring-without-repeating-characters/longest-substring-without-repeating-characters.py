@@ -1,26 +1,30 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        max_len,running_len = 0,0
 
-        seen = {
+        positions = {
 
         }
 
         '''
-        seen should look like:
-            char -> last_idx
+        positions should looks like: {
+            char -> idx
+        }
         '''
-        longest = 0
+
         l = 0
+
         for r in range(len(s)):
-            if s[r] not in seen:
-                seen[s[r]] = r
-            
+            if s[r] not in positions:
+                positions[s[r]] = r
+
             else:
-                while l <= seen[s[r]]:
+                while l <= positions[s[r]]:
                     l += 1
+                    running_len -= 1
 
-                seen[s[r]] = r
-            longest = max(r-l+1, longest)
+                positions[s[r]] = r
+            running_len +=1
+            max_len = max(max_len,running_len)
 
-        return longest
-            
+        return max_len
