@@ -1,21 +1,13 @@
 class Solution:
-    def maxProfit(self, nums: List[int]) -> int:
-        
-        """
-        Sliding window:
-        while we have a 
-
-        """
-        max_profit = 0
+    def maxProfit(self, prices: List[int]) -> int:
+        max_prof = 0
 
         l = 0
-        r = 1
-        while r < len(nums):
-            if nums[r] > nums[l]:
-                max_profit = max(max_profit,nums[r]-nums[l])
 
-            else:
-                l = r
+        for r in range(len(prices)):
+            max_prof = max(max_prof,prices[r]-prices[l])
 
-            r += 1
-        return max_profit
+            if prices[r] < prices[l]:
+                l=r
+
+        return max_prof
