@@ -1,21 +1,21 @@
 class Solution(object):
-    def maxArea(self, nums):
+    def maxArea(self, height):
         """
         :type height: List[int]
         :rtype: int
         """
+        
+        l = 0
+        r = len(height)-1
         max_volume = 0
-
-        l,r = 0,len(nums)-1
-
+        
         while l < r:
-            volume = min(nums[l],nums[r]) * (r-l)
+            volume = min(height[l],height[r])* (r-l)
             max_volume = max(max_volume,volume)
-            if nums[l] < nums[r]:
+
+            if height[l] < height[r]:
                 l += 1
-
             else:
-                r-=1
+                r -= 1
 
-            
         return max_volume
