@@ -9,7 +9,7 @@ class UndergroundSystem:
         self.trips = { }
 
         '''
-        (start_station, end_station) -> [time_delta0,time_delta1,...,time_deltan]
+        (start_station, end_station) -> (running sum of time_delta, count of observations)
         '''
 
         
@@ -31,17 +31,18 @@ class UndergroundSystem:
 
         time_delta = t - check_in_info[1]
 
-        if trip_stations in self.trips:
-            self.trips[trip_stations].append(time_delta)
+        if trip_stations not in self.trips:
+            self.trips[trip_stations]= [time_delta,1]
         else:
-            self.trips[trip_stations] = [time_delta]
+            self.trips[trip_stations][0] += time_delta
+            self.trips[trip_stations][1] += 1
 
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
         time_deltas = self.trips[(startStation,endStation)]
         
-        return sum(time_deltas)/len(time_deltas)
-        
+        return time_deltas[0]/time_deltas[1]
+    
 
 
 # Your UndergroundSystem object will be instantiated and called as such:
