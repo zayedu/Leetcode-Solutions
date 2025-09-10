@@ -1,18 +1,36 @@
 class Solution:
     def invalidTransactions(self, transactions: List[str]) -> List[str]:
-        invalid = []
         
-        for i, t1 in enumerate(transactions):
-            name1, time1, amount1, city1 = t1.split(',')
-            if int(amount1) > 1000:
-                invalid.append(t1)
-                continue
-            for j, t2 in enumerate(transactions):
-                if i != j: 
-                    name2, time2, amount2, city2 = t2.split(',')
-                    if name1 == name2 and city1 != city2 and abs(int(time1) - int(time2)) <= 60:
-                        invalid.append(t1)
-                        break
-        
-        return invalid
-       
+        transaction_mapping = { }
+
+        '''
+        transaction_mapping should look like:
+            transation_name -> transaction
+        '''
+
+        possibly_invalid = set()
+
+        for i in range(len(transactions)):
+            transaction_info = transactions[i].split(',')
+            transaction_info.append(i)
+
+            if int(transaction_info[2]) > 1000:
+                possibly_invalid.add(i)
+                
+
+
+            if transaction_info[0] not in transaction_mapping:
+                transaction_mapping[transaction_info[0]] = [transaction_info]
+
+            else:
+                for tran in transaction_mapping[transaction_info[0]]:
+                    if abs(int(tran[1])-int(transaction_info[1])) <= 60 and tran[3]!=transaction_info[3]:
+                        possibly_invalid.add(tran[4])
+                        possibly_invalid.add(i)
+                transaction_mapping[transaction_info[0]].append(transaction_info)
+        ans = []
+        for i in possibly_invalid:
+            ans.append(transactions[i])
+        return ans
+
+
