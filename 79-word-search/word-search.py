@@ -13,7 +13,7 @@ class Solution:
 
             seen.add((row,col))
             constructed_word.append(board[row][col])
-            if ('').join(constructed_word) == word:
+            if board[row][col] == word[k] and k == len(word)-1:
                 word_possible.append(True)
                 
             
