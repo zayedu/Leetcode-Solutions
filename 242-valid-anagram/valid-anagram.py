@@ -1,26 +1,26 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        char_freq = {
+        
+        char_count = {
 
         }
 
         '''
-        char_freq should looks like:
-            char - > freq
+        char_count is 
+            char -> frequency_in_s
         '''
-        
+
         for char in s:
-            if char in char_freq:
-                char_freq[char] += 1
+            if char in char_count:
+                char_count[char] += 1
 
             else:
-                char_freq[char] =1
+                char_count[char] = 1
 
-        
         for char in t:
-            if char not in char_freq or char_freq[char] <= 0:
+            if char not in char_count or char_count[char] <= 0:
                 return False
-
-            char_freq[char] -= 1
-
-        return min(char_freq.values()) == 0 and max(char_freq.values()) == 0 
+            
+            char_count[char] -= 1
+            
+        return max(char_count.values()) == 0 and min(char_count.values()) == 0
