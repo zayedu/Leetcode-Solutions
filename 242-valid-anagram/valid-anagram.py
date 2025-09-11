@@ -23,4 +23,4 @@ class Solution:
             
             char_count[char] -= 1
             
-        return max(char_count.values()) == 0 and min(char_count.values()) == 0
+        return all(v==0 for v in char_count.values())
