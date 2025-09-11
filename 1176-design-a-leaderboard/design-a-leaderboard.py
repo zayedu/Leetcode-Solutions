@@ -1,19 +1,34 @@
 class Leaderboard:
 
     def __init__(self):
-        # playerId -> total score
-        self.scores = {}
+        self.leaderboard_map = { }
 
     def addScore(self, playerId: int, score: int) -> None:
-        # O(1)
-        self.scores[playerId] = self.scores.get(playerId, 0) + score
+        if playerId not in self.leaderboard_map:
+            self.leaderboard_map[playerId] = score
+        
+        else:
+            self.leaderboard_map[playerId] += score
+        
 
-    def top(self, K: int) -> int:
-        # O(n log n) by sorting values
-        sorted_scores = sorted(self.scores.values(), reverse=True)
-        return sum(sorted_scores[:K])
+    def top(self, k: int) -> int:
+        items = self.leaderboard_map.items()
+
+        items = list(items)
+        items.sort(reverse = True, key=lambda x:x[1])
+        print(items)
+        top = 0
+        for index in range(k):
+            top += items[index][1]
+        return top
 
     def reset(self, playerId: int) -> None:
-        # O(1)
-        if playerId in self.scores:
-            del self.scores[playerId]
+        del self.leaderboard_map[playerId]
+        
+
+
+# Your Leaderboard object will be instantiated and called as such:
+# obj = Leaderboard()
+# obj.addScore(playerId,score)
+# param_2 = obj.top(K)
+# obj.reset(playerId)
