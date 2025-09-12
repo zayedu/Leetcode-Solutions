@@ -5,7 +5,7 @@ class Solution:
         if n == 1:
             return 0
         def binary_search(i):
-            print(i)
+
             if i == 0 and nums[i] > nums[i+1]:
                 return i
 
