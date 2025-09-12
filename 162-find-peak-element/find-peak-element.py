@@ -1,25 +1,14 @@
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
+        l,r = 0, len(nums)-1
 
-        n = len(nums)
-        if n == 1:
-            return 0
-        def binary_search(i):
-            
-            if i == 0 and nums[i] > nums[i+1]:
-                return i
+        while l<r:
+            mid = (l+r)//2
 
-            if i == n-1 and nums[i] > nums[i-1]:
-                return i
+            if nums[mid] < nums[mid+1]:
+                l = mid+1
 
-            if nums[i] > nums[i-1] and nums[i] > nums[i+1]:
-                return i
+            else:
+                r = mid
 
-            if i < n-1 and nums[i+1] > nums[i]:
-                return binary_search(i+1)
-
-            if i > 0 and nums[i-1] > nums[i]:
-                return binary_search(i-1)
-
-        return binary_search(int(n/2))
-            
+        return l
