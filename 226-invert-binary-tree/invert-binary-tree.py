@@ -11,9 +11,8 @@ class Solution:
 
             if not node:
                 return
-            temp = node.left 
-            node.left = node.right
-            node.right = temp
+            
+            node.left,node.right = node.right,node.left
 
             dfs(node.left)
             dfs(node.right)
