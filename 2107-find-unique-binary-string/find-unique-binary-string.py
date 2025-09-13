@@ -1,17 +1,8 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
-        nums = set(nums)
-        n = len(nums)
+        ans = ['0']*len(nums)
 
-        def dfs(index,binary):
-            if index == n:
-                if binary not in nums:
-                    return binary
+        for index in range(len(nums)):
+            ans[index] = '1' if str(nums[index])[index] == '0' else '0'
 
-                else:
-                    return False
-
-
-            return dfs(index+1,binary+'1') or dfs(index+1,binary+'0')
-            
-        return dfs(0,'')
+        return "".join(ans)
