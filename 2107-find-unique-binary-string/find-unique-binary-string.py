@@ -27,7 +27,12 @@ class Solution:
                 else:
                     return False
 
-        
+            if '0' not in index_to_chars[index]:
+                return dfs(index+1,binary+'0')
+
+            if '1' not in index_to_chars[index]:
+                return dfs(index+1,binary+'1')
+
             return dfs(index+1,binary+'1') or dfs(index+1,binary+'0')
             
         return dfs(0,'')
