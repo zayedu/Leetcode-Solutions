@@ -1,10 +1,7 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
         nums = set(nums)
-
         n = len(nums)
-
-
 
         def dfs(index,binary):
             if index == n:
