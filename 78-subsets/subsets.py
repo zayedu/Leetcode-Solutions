@@ -6,7 +6,7 @@ class Solution:
 
         def dfs(i):
 
-            if i >= len(nums):
+            if i == len(nums):
                 ans.append(subset.copy())
                 return
 
