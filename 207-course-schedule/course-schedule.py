@@ -1,7 +1,7 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
-        course_to_pre = {i:[] for i in range(numCourses)}
+        course_to_pre = defaultdict(list)
 
 
         for prerequisite in prerequisites:
