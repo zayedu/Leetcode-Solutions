@@ -1,19 +1,27 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        stack = []  # store indices, not heights
+        
+        l,r = 0,len(height)-1
+        max_l, max_r = height[l],height[r]
         water = 0
+        
+        while l<r:
 
-        for i in range(len(height)):
-            # While current bar is higher than the bar at stack top, we can trap water
-            while stack and height[i] > height[stack[-1]]:
-                bottom = stack.pop()
-                if not stack:
-                    break  # no left wall
-                left = stack[-1]
-                width = i - left - 1
-                bounded_height = min(height[left], height[i]) - height[bottom]
-                if bounded_height > 0:
-                    water += width * bounded_height
-            stack.append(i)
+            if max_r < max_l:
 
+                water += 0 if max_r - height[r] < 0 else max_r - height[r]
+                r-= 1
+                max_r = max(height[r],max_r)
+
+            else:
+                water += 0 if max_l - height[l] < 0 else max_l - height[l]
+                l+= 1
+                max_l = max(height[l],max_l)
+        
         return water
+
+
+
+
+
+
