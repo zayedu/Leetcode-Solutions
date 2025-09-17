@@ -1,22 +1,19 @@
 class OrderedStream:
 
     def __init__(self, n: int):
-        self.n = n
-        self.values = [False] * n
-        self.pointer = 0
-        
+        self.pointer = 1
+        self.map = { }
 
     def insert(self, idKey: int, value: str) -> List[str]:
-        self.values[idKey-1] = value
+        
+        self.map[idKey] = value
+        ans = []
+        while self.pointer in self.map:
+            ans.append(self.map[self.pointer])
 
-        continuous_chunk = [ ]
-        
-        while self.pointer < self.n and self.values[self.pointer]:
-            continuous_chunk.append(self.values[self.pointer])
-            self.pointer+=1
-        return continuous_chunk
-        
-        
+            self.pointer += 1
+
+        return ans
 
 
 # Your OrderedStream object will be instantiated and called as such:
