@@ -7,7 +7,7 @@ class Solution:
         def backtrack(index):
 
             if index == len(nums):
-                subsets.append(list(subset))
+                subsets.append(subset.copy())
                 return 
 
             subset.append(nums[index])
