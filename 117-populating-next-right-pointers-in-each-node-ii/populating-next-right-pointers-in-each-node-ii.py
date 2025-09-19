@@ -10,8 +10,8 @@ class Node:
 
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
-
-        def next_child(node):
+        
+        def next_node(node):
 
             while node:
                 if node.left:
@@ -20,23 +20,26 @@ class Solution:
                 if node.right:
                     return node.right
 
+                
                 node = node.next
 
             return None
 
-        def dfs(node):
+        def attach(node):
+
             if not node:
                 return
 
             if node.left:
-                node.left.next = node.right if node.right else next_child(node.next)
+                node.left.next = node.right if node.right else next_node(node.next)
 
             if node.right:
-                node.right.next = next_child(node.next)
+                node.right.next = next_node(node.next)
 
-            dfs(node.right)
-            dfs(node.left)
+            attach(node.right)
+            attach(node.left)
+            
 
-        dfs(root)
+        attach(root)
 
         return root
