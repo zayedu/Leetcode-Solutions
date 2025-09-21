@@ -6,7 +6,7 @@ class Solution:
          additional meeting room
         """
         intervals.sort(key= lambda interval:interval[0])
-        start_times = sorted(time[0] for time in intervals)
+        start_times = list(time[0] for time in intervals)
         end_times = sorted(time[1] for time in intervals)
         
         interval_count = len(intervals)
