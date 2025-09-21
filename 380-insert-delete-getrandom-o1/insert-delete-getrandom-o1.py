@@ -1,50 +1,40 @@
-import random
 class RandomizedSet:
 
     def __init__(self):
-        self.inventory_map = { }
-        self.inventory_list = [ ]
-        self.inventory_size = 0
-
+        self.map = { }
+        '''
+        val -> idx
+        '''
+        self.values = []
     def insert(self, val: int) -> bool:
-        exists = val in self.inventory_map
-
-        if not exists:
-            self.inventory_size += 1
-            self.inventory_list.append(val)
-            self.inventory_map[val] = self.inventory_size-1
-        
-        return not exists
-
+        present = val in self.map
+        if present:
+            return not present
+        self.values.append(val)
+        self.map[val] = len(self.values)-1
+        return not present
 
     def remove(self, val: int) -> bool:
-        exists = val in self.inventory_map
+        present = val in self.map
 
-        if exists:
-            if self.inventory_map[val] == self.inventory_size - 1:
-                del self.inventory_map[val]
-                self.inventory_size -= 1
-                self.inventory_list.pop()
-                return exists
+        if not present:
+            return present
 
-            self.inventory_size -= 1
-            replace_with = self.inventory_list.pop()
+        index = self.map.get(val)
+        temp = self.values[-1]
+        self.values[index] = temp
 
-            to_replace = self.inventory_map[val]
+        if temp != val:
+            self.map[temp] = index
 
-            self.inventory_list[to_replace] = replace_with
+        del self.map[val]
 
-            self.inventory_map[replace_with] = to_replace
-            del self.inventory_map[val]
-
-        return exists
-
-
+        self.values.pop()
+        return present
     def getRandom(self) -> int:
-        random_idx = random.randint(0,self.inventory_size-1)
+        random_index = random.randint(0,len(self.values)-1)
+        return self.values[random_index]
 
-        return self.inventory_list[random_idx]
-        
 
 
 # Your RandomizedSet object will be instantiated and called as such:
