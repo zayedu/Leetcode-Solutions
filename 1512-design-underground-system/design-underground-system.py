@@ -1,48 +1,42 @@
 class UndergroundSystem:
 
     def __init__(self):
-        self.active_check_ins = { }
-
-        '''
-        id -> (station, check_in time)
-        '''
         self.trips = { }
-
         '''
-        (start_station, end_station) -> (running sum of time_delta, count of observations)
+        (start_station, end_station) -> (time_sum, time_observations)
         '''
-
-        
-
+        self.check_ins = { }
+        '''
+        id -> (station,check_in_time)
+        '''
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        if id in self.active_check_ins:
-            raise ValueError('User is already checked in. Please checkout before trying to check in again')
-
-        self.active_check_ins[id] = (stationName, t)
-
+        
+        if id in self.check_ins:
+            raise ValueError("You must check out prior to checking back in")
+        
+        self.check_ins[id] = (stationName,t)        
+        
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        if id not in self.active_check_ins:
-            raise ValueError('User never checked in.')
+        if id not in self.check_ins:
+            raise ValueError('Please check in before trying to check out.')
 
-        check_in_info = self.active_check_ins[id]
-        del self.active_check_ins[id]
-        trip_stations = (check_in_info[0], stationName)
+        start_station,start_time = self.check_ins[id]
 
-        time_delta = t - check_in_info[1]
+        trip_id = (start_station,stationName)
 
-        if trip_stations not in self.trips:
-            self.trips[trip_stations]= [time_delta,1]
+        if trip_id in self.trips:
+            self.trips[trip_id] = (self.trips[trip_id][0]+(t-start_time),self.trips[trip_id][1]+1)
         else:
-            self.trips[trip_stations][0] += time_delta
-            self.trips[trip_stations][1] += 1
+            self.trips[trip_id] = (t-start_time,1)
 
-
-    def getAverageTime(self, startStation: str, endStation: str) -> float:
-        time_deltas = self.trips[(startStation,endStation)]
-        
-        return time_deltas[0]/time_deltas[1]
+        del self.check_ins[id]
     
+    def getAverageTime(self, startStation: str, endStation: str) -> float:
+        total_time, observations = self.trips.get((startStation,endStation))
+
+        return total_time/observations
+        
 
 
 # Your UndergroundSystem object will be instantiated and called as such:
