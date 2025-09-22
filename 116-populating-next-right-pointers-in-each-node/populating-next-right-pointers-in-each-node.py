@@ -17,13 +17,12 @@ class Solution:
                 return
 
             node.left.next = node.right
-
             if node.next:
                 node.right.next = node.next.left
             
-            dfs(node.left)
             dfs(node.right)
+            dfs(node.left)
+
         dfs(root)
-        
+
         return root
-            
