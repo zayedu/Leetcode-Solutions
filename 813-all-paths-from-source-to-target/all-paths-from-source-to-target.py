@@ -1,27 +1,23 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        destination_node = len(graph)-1
+        adjacency_list = { }
 
-        connections = { }
+        for index in range(len(graph)):
+            adjacency_list[index] = graph[index]  
+            
+        all_paths = []
 
-        for i in range(len(graph)):
-            connections[i] = graph[i]
+        
+        def dfs(node):
 
-        last_node = len(graph)
-        all_paths = [ ]
+            if node == destination_node:
+                all_paths.append(path.copy())
 
-        def dfs(current_node, path):
-
-            if current_node == last_node-1:
-                all_paths.append(path)
-
-            else:
-                for edge in connections[current_node]:
-
-                    path.append(edge)
-                    dfs(edge,list(path))
-                    path.pop()
-
-                
-        dfs(0,[0])
-
-        return all_paths
+            for edge in adjacency_list[node]:
+                path.append(edge)
+                dfs(edge)
+                path.pop()
+        path = [0]
+        dfs(0)
+        return all_paths    
