@@ -30,12 +30,13 @@ class Solution:
 
     def unvowel(self,word):
         vowels = {'a','e','i','o','u'}
+        word = word.lower()
         out = []
         for char in word:
-            if char.lower() in vowels:
+            if char in vowels:
                 out.append('*')
             else:
-                out.append(char.lower())
+                out.append(char)
         return  ''.join(out)
 
 
