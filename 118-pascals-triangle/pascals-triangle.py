@@ -1,18 +1,24 @@
 class Solution:
     def generate(self, numRows: int) -> List[List[int]]:
-        if numRows==0:
-            return []
+        triangle = []
 
-        if numRows==1:
-            return [[1]]
+        def backtrack(level=1):
+            if level == numRows+1:
+                return
+            row = []
 
-        prevRows=self.generate(numRows-1)
 
-        newRow= [1]*numRows
+            for i in range(level):
+                if i == 0 or i == level-1:
+                    row.append(1)
 
-        for i in range (1,numRows-1):
-            newRow[i]=prevRows[-1][i - 1] + prevRows[-1][i]
+                else:
+                    row.append(triangle[-1][i]+triangle[-1][i-1])
 
-        prevRows.append(newRow)
+            triangle.append(row)
+            backtrack(level+1)
 
-        return prevRows
+            
+
+        backtrack()
+        return triangle
