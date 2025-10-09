@@ -2,7 +2,7 @@ from sortedcontainers import SortedList
 
 class Solution:
     def avoidFlood(self, rains: List[int]) -> List[int]:
-        ans = [1] * len(rains)
+        ans = [2] * len(rains)
         sunny_days = SortedList()
         full_lakes = {} #lake(idx) -> day filled
 
@@ -21,7 +21,7 @@ class Solution:
                 sunny_days.remove(dry_day)
 
 
-            ans[index] =-1
+            ans[index] = -1
             full_lakes[rains[index]] = index 
 
         return ans
