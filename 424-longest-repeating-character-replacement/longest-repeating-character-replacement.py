@@ -15,12 +15,12 @@ class Solution:
             else:
                 char_in_window_freq[s[r]] = 1
 
-            running_max = max(char_in_window_freq.values())
+            running_max = max(running_max,char_in_window_freq[s[r]])
 
             while running_max < (r-l+1) - k:
                 char_in_window_freq[s[l]] -= 1
                 l += 1
-                running_max = max(char_in_window_freq.values())
+
 
             
 
