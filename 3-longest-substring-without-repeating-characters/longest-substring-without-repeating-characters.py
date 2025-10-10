@@ -1,34 +1,22 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        
-        last_seen = {
+        char_map = {
 
         }
-        
-        '''
-        let last_seen be a hashmap keeping track of when we last saw a character, this way if we see it again we know where to 
-        move to so that we now no longer have a substring with a repeating character, this also acts as a seen set
+        # char -> last time it appeared
 
-        should look like:
-
-            char -> last_seen_index
-        '''
-        max_nonrepeating_length = 0
+        longest = 0
         l = 0
-
         for r in range(len(s)):
-            
-            if s[r] not in last_seen:
-                last_seen[s[r]] = r
+            if s[r] not in char_map:
+                char_map[s[r]] = r
 
             else:
-                while last_seen[s[r]] >= l:
-                    l += 1 
+                while l <= char_map[s[r]]:
+                    l += 1
+                char_map[s[r]] = r
 
-                last_seen[s[r]] = r
+            longest = max(longest,r-l+1)
 
-            max_nonrepeating_length = max(max_nonrepeating_length,r-l+1)
-
-        return max_nonrepeating_length
-
-
+        return longest
+                    
