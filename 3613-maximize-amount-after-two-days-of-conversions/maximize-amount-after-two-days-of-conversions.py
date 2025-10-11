@@ -1,37 +1,45 @@
 class Solution:
     def maxAmount(self, initialCurrency: str, pairs1: List[List[str]], rates1: List[float], pairs2: List[List[str]], rates2: List[float]) -> float:
-        graph1 = collections.defaultdict(list)
-        graph2 = collections.defaultdict(list)
+        adj_list_1 = defaultdict(list)
+        adj_list_2 = defaultdict(list)
+        for index in range(len(pairs1)):
+            adj_list_1[pairs1[index][0]].append([pairs1[index][1],rates1[index]])
+            adj_list_1[pairs1[index][1]].append([pairs1[index][0],1/rates1[index]])
+        for index in range(len(pairs2)):
+            adj_list_2[pairs2[index][0]].append([pairs2[index][1],rates2[index]])
+            adj_list_2[pairs2[index][1]].append([pairs2[index][0],1/rates2[index]])
 
-        for i, (a,b) in enumerate(pairs1):
-            graph1[a].append((b, rates1[i]))
-            graph1[b].append((a, 1/rates1[i]))
+        max_day_1 = defaultdict(float)
+        max_day_1[initialCurrency] = 1.0
 
-        for i, (a,b) in enumerate(pairs2):
-            graph2[a].append((b, rates2[i]))
-            graph2[b].append((a, 1/rates2[i]))
-        
-        def bfs(start, graph):
-            best = collections.defaultdict(float)
-            queue = collections.deque()
-            queue.append((start, 1.0))
-            visited = set()
-            while queue:
-                cur, val = queue.popleft()
-                best[cur] = max(best[cur], val)
-                visited.add(cur)
-                for nei, mult in graph[cur]:
-                    if nei not in visited:
-                        queue.append((nei, val * mult))
-            return best
-        
-        bestconversion1 = bfs(initialCurrency, graph1)
-        bestconversion2 = bfs(initialCurrency, graph2)
 
-        maxconversion = 0
-        for currency in bestconversion1:
-            if currency in bestconversion2:
-                maxconversion = max(maxconversion, bestconversion1[currency] / bestconversion2[currency])
-        
-        return maxconversion
-        
+        queue=[(initialCurrency,1.0)]
+        while queue:
+            node,units = queue.pop()
+            if units < max_day_1[node]:
+                continue
+            max_day_1[node] = max(units,max_day_1[node])
+
+
+            for edge,rate in adj_list_1[node]:
+                if units*rate > max_day_1[edge]:
+                    queue.append((edge,units*rate))
+
+            
+        queue = list(max_day_1.items())
+
+        max_day_2 = defaultdict(float)
+
+        while queue:
+            node,units = queue.pop()
+            
+            if units < max_day_2[node]:
+                continue
+            max_day_2[node] = units
+
+            for edge, rate in adj_list_2[node]:
+                if rate*units > max_day_2[edge]:
+                    
+                    queue.append((edge,units*rate))
+
+        return max(max_day_2[initialCurrency],max_day_1[initialCurrency])
