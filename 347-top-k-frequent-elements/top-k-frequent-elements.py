@@ -5,28 +5,20 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        freq= {
-
-        }
-        '''
-        freq should look like:
-            num -> freq
-        '''
-
-        for num in nums:
-            if num not in freq:
-                freq[num] = 1
-
-            else:
-                freq[num] += 1
-
         
+        freq = defaultdict(int)
+
+        for char in nums:
+            freq[char] += 1
+
         items = list(freq.items())
-        items.sort(reverse = True, key = lambda x:x[1])
-        result = []
-        for count in range(k):
-            result.append(items[count][0])
 
-        return result
+        items.sort(key = lambda x:x[1], reverse = True)
+
+        ans = []
+        
+        for index in range(k):
+            ans.append(items[index][0])
 
 
+        return ans
