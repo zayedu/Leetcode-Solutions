@@ -10,7 +10,7 @@ class Solution:
         seen = set()
 
         def dfs(dividend,divisor):
-            print(dividend,divisor)
+
             if dividend in seen:
                 return -1
 
