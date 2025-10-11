@@ -1,36 +1,34 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        
-        course_to_pre = defaultdict(list)
+        adj_list = defaultdict(list)
 
+        for edge in prerequisites:
+            adj_list[edge[0]].append(edge[1])
 
-        for prerequisite in prerequisites:
-            if prerequisite[0] in course_to_pre:
-                course_to_pre[prerequisite[0]].append(prerequisite[1])
-            else:
-                course_to_pre[prerequisite[0]]= [prerequisite[1]]
+        visited = set()
 
-        seen = set()
+        def dfs(node):
 
-        def dfs(course):
-
-            if course in seen:
-                return False
-            if course_to_pre[course] == []:
+            if not adj_list[node]:
                 return True
-            seen.add(course)
 
-            for prereq in course_to_pre[course]:
-                if not dfs(prereq):
+            if node in visited:
+                return False
+
+            visited.add(node)
+
+            for edge in adj_list[node]:
+                if not dfs(edge):
                     return False
-
-            seen.remove(course)
-            course_to_pre[course] = []
+                
+            adj_list[node] = []
+            visited.remove(node)
+                
             return True
-            
 
         for course in range(numCourses):
             if not dfs(course):
                 return False
+
         return True
-        
+
