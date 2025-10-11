@@ -11,14 +11,21 @@ class Solution(object):
         for char in nums:
             freq[char] += 1
 
-        items = list(freq.items())
+        buckets= [[]for _ in range(len(nums)+1)]
 
-        items.sort(key = lambda x:x[1], reverse = True)
+        for num,count in freq.items():
+            buckets[count].append(num)
 
+
+       
         ans = []
-        
-        for index in range(k):
-            ans.append(items[index][0])
 
+        for i in range(len(nums),-1,-1):
+            
+            for num in buckets[i]:
+                ans.append(num)
+
+            if len(ans) ==k:
+                return ans
 
         return ans
