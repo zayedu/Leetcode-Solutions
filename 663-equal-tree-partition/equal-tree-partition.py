@@ -23,4 +23,5 @@ class Solution:
 
         if total%2 != 0:
             return False
+            
         return total//2 in sums 
