@@ -28,14 +28,14 @@ class Solution:
 
     #bfs
         seen = set()
-        queue = deque([[beginWord,0]])
+        queue = deque([[beginWord,1]])
 
         while queue:
             
             word, steps = queue.popleft()
 
             if word == endWord:
-                return steps +1
+                return steps
 
 
             a_words = anon_words(word)
