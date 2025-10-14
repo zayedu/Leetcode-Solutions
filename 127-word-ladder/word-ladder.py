@@ -3,7 +3,7 @@ from collections import deque
 class Solution:
 
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-
+        @lru_cache()
         def anon_words(word):
             ans = []
             for index in range(len(word)):
