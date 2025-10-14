@@ -37,12 +37,13 @@ class Solution:
             if word == endWord:
                 return steps +1
 
-            seen.add(word)
+
             a_words = anon_words(word)
 
             for anon_word in a_words:
                 for edge in adj_list[anon_word]:
                     if edge not in seen:
+                        seen.add(edge)
                         queue.append([edge,steps+1])
 
         return 0
