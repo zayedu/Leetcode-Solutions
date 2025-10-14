@@ -1,45 +1,33 @@
 class NumMatrix:
+    def row_prefix_sum(self,row):
+        ans = []
+        pref_sum = 0
+        for num in row:
+            pref_sum += num
+            ans.append(pref_sum)
 
-    def create_prefix_sum(self,row):
-        prefix_sum = []
-        sum = 0
-        for val in row:
-            sum += val
-            prefix_sum.append(sum)
-        return prefix_sum
-        
+        return ans
+
     def __init__(self, matrix: List[List[int]]):
-        #create this 
         self.matrix = matrix
-        self.row_prefix_sum = []
-        for row in matrix:
-            prefix_sum = self.create_prefix_sum(row)
-            self.row_prefix_sum.append(prefix_sum)
-        
+        self.prefix_matrix = []
+
+        for row in self.matrix:
+            self.prefix_matrix.append(self.row_prefix_sum(row))
+
 
     def update(self, row: int, col: int, val: int) -> None:
-        if row < 0 or row>= len(self.matrix):
-            return 
-        if col < 0 or col>= len(self.matrix[0]):
-            return 
-        self.matrix[row][col]=val
-        #update prefix sum
-        self.row_prefix_sum[row] = self.create_prefix_sum(self.matrix[row])
-        
+        self.matrix[row][col] = val
 
+        self.prefix_matrix[row] = self.row_prefix_sum(self.matrix[row])
+        
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
-        # iterate throught row1 to row2
-        sum = 0 
-        for r in range(row1, row2+1):
-        # calculate prefix[col2]-prefix[col1] (this sum)
+        sum_region = 0
 
-            if col1==0:
-                sum += self.row_prefix_sum[r][col2]
-            else:
-                sum += self.row_prefix_sum[r][col2] - self.row_prefix_sum[r][col1-1]
-        
-        return sum
-        
+        for row in range(row1,row2+1):
+            sum_region += self.prefix_matrix[row][col2] - (self.prefix_matrix[row][col1-1] if col1 > 0 else 0)
+            
+        return sum_region
 
 
 # Your NumMatrix object will be instantiated and called as such:
