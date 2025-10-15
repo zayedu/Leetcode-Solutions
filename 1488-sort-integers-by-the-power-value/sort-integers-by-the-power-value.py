@@ -1,15 +1,17 @@
 class Solution:
     def getKth(self, lo: int, hi: int, k: int) -> int:
-        @lru_cache()
-        def getPower(num,power):
+        memo = {1: 0}
 
-            if num == 1:
-                return power
+        def getPower(num: int) -> int:
+            if num in memo:
+                return memo[num]
 
-            if num %2==0:
-                return getPower(num//2,power+1)
-            
-            return getPower(3*num+1,power+1)
+            if num % 2 == 0:
+                memo[num] = 1 + getPower(num // 2)
+            else:
+                memo[num] = 1 + getPower(3 * num + 1)
+
+            return memo[num]
 
         num_power = defaultdict(int)
 
@@ -18,7 +20,7 @@ class Solution:
         '''
 
         for num in range(lo,hi+1):
-            num_power[num] = getPower(num,0)
+            num_power[num] = getPower(num)
 
         ans = [[] for _ in range(max(num_power.values())+1)]
 
