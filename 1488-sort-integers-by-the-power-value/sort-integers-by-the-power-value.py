@@ -1,41 +1,44 @@
 class Solution:
     def getKth(self, lo: int, hi: int, k: int) -> int:
-        
-        def getPower(num,power):
-            if num == 1:
-                return power
+        """
+        12 -> 6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1: power = 9
+        13 -> 40 -> 20 -> 10: power = 9
+        14 -> 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13: 8 + 9 = 17
+        15 -> 46 -> 23 -> 70 -> 35 -> 106 -> 53 -> 160 -> 80 -> 40 -> 20 -> 10: 17
 
-            if num %2==0:
-                return getPower(num//2,power+1)
+        cache = {
             
-            return getPower(3*num+1,power+1)
+        }
 
-        num_power = defaultdict(int)
+        power(x):
+            if x == 1:
+                return 0
+            if x in cache:
+                return cache[x]
+            if x % 2 == 0:
+                return 1 + fun(x // 2)
+            return 1 + fun(x * 3 + 1)
+        """
 
-        '''
-        num_power should look like int -> power
-        '''
+        # 1 + power(6) = 2 + power(3)
+        cache = {}
 
-        for num in range(lo,hi+1):
-            num_power[num] = getPower(num,0)
+        def power(x: int):
+            if x == 1:
+                return 0
+            if x in cache:
+                return cache[x]
+            if x % 2 == 0:
+                tmp = 1 + power(x // 2)
+                cache[x] = tmp
+                return tmp
+            tmp = 1 + power(x * 3 + 1)
+            cache[x] = tmp
+            return tmp
 
-        ans = [[] for _ in range(max(num_power.values())+1)]
+        arr = [i for i in range(lo, hi + 1)]
+        # [12, 13, 14, 15]
+        arr.sort(key=lambda x: (power(x), x))
+        print(arr)
 
-        for num, power in num_power.items():
-            ans[power].append(num)
-
-        count = 0
-
-        for index in range(len(ans)):
-            if not ans[index]:
-                continue
-
-            if count + len(ans[index]) >= k:
-                vals = sorted(ans[index])
-                
-                return vals[k-count-1]
-
-            count += len(ans[index])
-
-        
-            
+        return arr[k - 1]
