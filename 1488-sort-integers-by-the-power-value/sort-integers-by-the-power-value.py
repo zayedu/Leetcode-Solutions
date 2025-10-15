@@ -1,6 +1,6 @@
 class Solution:
     def getKth(self, lo: int, hi: int, k: int) -> int:
-        cache = {}
+        @lru_cache()
         def getPower(num,power):
 
             if num == 1:
