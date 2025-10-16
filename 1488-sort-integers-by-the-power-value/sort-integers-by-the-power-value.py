@@ -35,7 +35,7 @@ class Solution:
 
             if count + len(ans[index]) >= k:
                 vals = sorted(ans[index])
-                
+
                 return vals[k-count-1]
 
             count += len(ans[index])
