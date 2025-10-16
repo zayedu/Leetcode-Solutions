@@ -1,13 +1,31 @@
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        def function(base=x, exponent=abs(n)):
-            if exponent == 0:
-                return 1
-            elif exponent % 2 == 0:
-                return function(base * base, exponent // 2)
-            else:
-                return base * function(base * base, (exponent - 1) // 2)
-
-        f = function()
         
-        return float(f) if n >= 0 else 1/f
+        if x == 0:
+            return 0
+
+        if n == 0:
+            return 1
+
+        def shrink(val,exp):
+            if exp == 1:
+                return val
+
+            if exp == 0:
+                return 1
+
+            res = shrink(val,exp//2)
+
+            if exp%2 ==0:
+                return res*res
+
+            return res*res*val
+
+        val = shrink(x,abs(n))
+
+        if n < 0:
+            return 1/val
+
+        return val
+
+            
