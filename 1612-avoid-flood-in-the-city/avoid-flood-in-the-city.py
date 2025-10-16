@@ -2,45 +2,30 @@ from sortedcontainers import SortedList
 
 class Solution:
     def avoidFlood(self, rains: List[int]) -> List[int]:
-        """
-        index of rains is day
-        rains[index] is lake i.e ans[index]
-        """
-
 
         ans = [1]*len(rains)
-        rainy_days = {} #day/idx -> day it was filled
-        sunny_days = SortedList()
+        sunny_days = SortedList()#index of sunny days
+        rainy_days = {} #lake(rains[i]) -> day it rained
 
-        for index in range(len(rains)):
-            if rains[index] == 0:
-                sunny_days.add(index)
+        #rains[i] lake getting rained on on ith day
+
+        for day in range(len(rains)):
+            if rains[day] == 0:
+                sunny_days.add(day)
                 continue
-
-            if rains[index] in rainy_days:
-                day_it_rained = rainy_days[rains[index]] #0
-                next_sunny_day = sunny_days.bisect_right(day_it_rained) #1
+            
+            if rains[day] in rainy_days:
+                day_it_rained = rainy_days[rains[day]]
+                next_sunny_day = sunny_days.bisect_right(day_it_rained)
 
                 if next_sunny_day == len(sunny_days):
-                     #no sunny day after it last rained i.e we cannot dry this lake before it rains again
-                     return []
+                    return []
                 
-                ans[sunny_days[next_sunny_day]] = rains[index]
+                ans[sunny_days[next_sunny_day]] = rains[day]
                 sunny_days.pop(next_sunny_day)
 
-            ans[index] = -1
-            rainy_days[rains[index]] = index
+            ans[day] = -1
+            rainy_days[rains[day]] = day
 
         return ans
-        '''
-        rains = [1,2,0,0,2,1]
-                           ^
-        sunny_days = [ 3 ]
-        rainy_day = { 
-            1 : 0,
-            2 : 4,
-        }
-
-        ans = [-1,-1,2,1,1,1]
-        '''
-                
+            
