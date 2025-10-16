@@ -1,35 +1,36 @@
 class Solution:
     def invalidTransactions(self, transactions: List[str]) -> List[str]:
         
-        transaction_map = defaultdict(list)
-
-        '''
-        name ->[(timei,cityi,i)]
-        '''
-
-        possibly_invalid = set()
-
-        for index in range(len(transactions)):
-            print(transactions[index])
-            transaction_info = transactions[index].split(',')
-            #[name,time,amount,city]
-            print(transaction_info)
-            if int(transaction_info[2]) > 1000:
-                possibly_invalid.add(index)
-
-            if transaction_info[0] in transaction_map:
-                other_trans = transaction_map[transaction_info[0]]
-                for tran in other_trans:
-                    if tran[1] != transaction_info[3] and abs(int(tran[0])-int(transaction_info[1])) <= 60:
-                        possibly_invalid.add(index)
-                        possibly_invalid.add(tran[2])
+        parsed = []
+        for i, t in enumerate(transactions):
+            parts = t.split(",")
+            parsed.append((parts[0], int(parts[1]), int(parts[2]), parts[3], i))
+        
+        # Sort by name, then time for better cache locality
+        by_name = defaultdict(list)
+        for name, time, amt, city, idx in parsed:
+            by_name[name].append((time, city, idx))
+        
+        # Sort each person's transactions by time
+        for name in by_name:
+            by_name[name].sort()
+        
+        invalid = set()
+        
+        for name, time, amt, city, idx in parsed:
+            if amt > 1000:
+                invalid.add(idx)
             
-            transaction_map[transaction_info[0]].append((transaction_info[1],transaction_info[3],index))
-        ans = []
-        for index in possibly_invalid:
-            ans.append(transactions[index])
-
-        return ans
-
-            
-
+            # Binary search approach for time window
+            name_txns = by_name[name]
+            for other_time, other_city, _ in name_txns:
+                # Early termination: if sorted by time, we can break early
+                if other_time < time - 60:
+                    continue
+                if other_time > time + 60:
+                    break
+                if city != other_city:
+                    invalid.add(idx)
+                    break
+        
+        return [transactions[i] for i in sorted(invalid)]
