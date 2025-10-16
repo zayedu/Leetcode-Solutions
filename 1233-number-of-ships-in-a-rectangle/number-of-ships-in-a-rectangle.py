@@ -12,27 +12,41 @@
 
 class Solution:
     def countShips(self, sea: 'Sea', topRight: 'Point', bottomLeft: 'Point') -> int:
+        # divide and conquer in to quadrants
         
-        if  topRight.x < bottomLeft.x or topRight.y < bottomLeft.y :
-            return 0
+        hasShips = sea.hasShips(topRight,bottomLeft)
 
-        has_ships = sea.hasShips(topRight,bottomLeft)
+        if not hasShips:
+            return 0 
 
-        if topRight.x == bottomLeft.x and topRight.y == bottomLeft.y and has_ships:
+        if topRight.x == bottomLeft.x or topRight.y == bottomLeft.y:
             return 1
 
-        if not has_ships:
-            return 0
+        mid_x = (bottomLeft.x+topRight.x)//2
+        mid_y = (bottomLeft.y+topRight.y)//2
 
-        mid_point_x = (bottomLeft.x + topRight.x)//2
-        mid_point_y = (bottomLeft.y + topRight.y)//2
+        quad_bl = self.countShips(
+            sea,
+            Point(mid_x,mid_y),
+            bottomLeft
+            )
 
-        #4 call
-        q_bl = self.countShips(sea, Point(mid_point_x,mid_point_y), bottomLeft)
-        q_br = self.countShips(sea, Point(topRight.x,mid_point_y),Point(mid_point_x+1,bottomLeft.y))
+        quad_br = self.countShips(
+            sea,
+            Point(topRight.x,mid_y),
+            Point(mid_x+1,bottomLeft.y)
+            )
 
-        q_ul = self.countShips(sea, Point(mid_point_x, topRight.y), Point(bottomLeft.x,mid_point_y+1))
+        quad_ul = self.countShips(
+            sea,
+            Point(mid_x,topRight.y),
+            Point(bottomLeft.x,mid_y+1)
+        )
 
-        q_ur = self.countShips(sea, topRight, Point(mid_point_x + 1, mid_point_y + 1))
+        quad_ur = self.countShips(
+            sea,
+            topRight,
+            Point(mid_x+1,mid_y+1)
+        )
 
-        return q_bl + q_br + q_ul + q_ur
+        return quad_ur + quad_ul + quad_bl + quad_br
