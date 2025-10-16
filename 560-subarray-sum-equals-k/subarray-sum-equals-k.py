@@ -1,18 +1,20 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
-        my_dict= {}
-        cnt = 0
-        my_dict[0] = 1
-        my_sum = 0
-        for i in nums:
-            my_sum += i
+        
 
-            if (my_sum - k) in my_dict:
-                cnt += my_dict[my_sum-k]
-            if my_sum not in my_dict:
-                my_dict[my_sum] = 1
-            else:
-                my_dict[my_sum] += 1
+        running_sum = 0
 
+        sums = defaultdict(int)
+        sums[0] = 1
+        
+        count = 0
 
-        return cnt
+        for num in nums:
+            running_sum += num
+
+            if (running_sum-k) in sums:
+                count += sums[running_sum-k]
+
+            sums[running_sum] += 1
+
+        return count
