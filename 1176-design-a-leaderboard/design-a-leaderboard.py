@@ -2,20 +2,17 @@ import heapq
 class Leaderboard:
 
     def __init__(self):
-        self.leaderboard = defaultdict(int) 
-        """
-        player_id -> player_total_score
-        """
+        self.leaderboard = defaultdict(int)
 
-    def addScore(self, playerId: int, score: int) -> None:        
+    def addScore(self, playerId: int, score: int) -> None:
         self.leaderboard[playerId] += score
 
-    
     def top(self, k: int) -> int:
         heap = [-score for score in self.leaderboard.values()]
 
         heapq.heapify(heap)
-        top_k  = 0
+
+        top_k = 0
 
         for _ in range(k):
             top_k -= heapq.heappop(heap)
@@ -23,9 +20,7 @@ class Leaderboard:
         return top_k
 
     def reset(self, playerId: int) -> None:
-
         self.leaderboard[playerId] = 0
-
         
 
 
