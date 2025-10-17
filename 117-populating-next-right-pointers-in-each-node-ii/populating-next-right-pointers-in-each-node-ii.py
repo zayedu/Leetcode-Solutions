@@ -11,35 +11,31 @@ class Node:
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         
-        def next_node(node):
-
+        def get_next(node):
+            
             while node:
                 if node.left:
                     return node.left
-
                 if node.right:
                     return node.right
-
                 
                 node = node.next
 
-            return None
+            return 
 
-        def attach(node):
-
+        def dfs(node):
             if not node:
-                return
-
-            if node.left:
-                node.left.next = node.right if node.right else next_node(node.next)
+                return 
 
             if node.right:
-                node.right.next = next_node(node.next)
+                node.right.next = get_next(node.next)
 
-            attach(node.right)
-            attach(node.left)
-            
+            if node.left:
+                node.left.next = node.right if node.right else get_next(node.next)
 
-        attach(root)
+            dfs(node.right)
+            dfs(node.left)
+
+        dfs(root)
 
         return root
