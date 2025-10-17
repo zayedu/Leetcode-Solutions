@@ -1,44 +1,39 @@
+import random
+import heapq  # if you had this elsewhere; harmless to leave/remove
+
 class RandomizedSet:
 
     def __init__(self):
-        self.map = { }
-        '''
-        val -> idx
-        '''
+        self.size = 0
         self.values = []
+        self.values_map = {}
+
     def insert(self, val: int) -> bool:
-        present = val in self.map
-        if present:
-            return not present
+        if val in self.values_map:
+            return False
         self.values.append(val)
-        self.map[val] = len(self.values)-1
-        return not present
+        self.size += 1
+
+        self.values_map[val] = self.size - 1
+        return True
 
     def remove(self, val: int) -> bool:
-        present = val in self.map
+        if val not in self.values_map:
+            return False
 
-        if not present:
-            return present
+        idx = self.values_map[val]
+        
+        last_val = self.values[self.size - 1]
 
-        index = self.map.get(val)
-        temp = self.values[-1]
-        self.values[index] = temp
-
-        if temp != val:
-            self.map[temp] = index
-
-        del self.map[val]
-
+        if idx != self.size-1:
+            self.values[idx] = last_val
+            self.values_map[last_val] = idx
+ 
         self.values.pop()
-        return present
+        self.size -= 1
+        del self.values_map[val]
+        return True
+
     def getRandom(self) -> int:
-        random_index = random.randint(0,len(self.values)-1)
+        random_index = random.randint(0, self.size - 1)
         return self.values[random_index]
-
-
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
