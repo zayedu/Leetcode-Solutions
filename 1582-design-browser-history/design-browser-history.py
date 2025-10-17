@@ -1,21 +1,20 @@
 class BrowserHistory:
 
     def __init__(self, homepage: str):
+        self.previous_sites = []
+        self.forward_sites = []
 
-        self.homepage = homepage
         self.current_site = homepage
-        self.previous_sites = [ ]
-        self.forward_sites = [ ]
+
 
     def visit(self, url: str) -> None:
         self.previous_sites.append(self.current_site)
         self.current_site = url
-        self.forward_sites = [ ]
+        self.forward_sites = []
+        
 
     def back(self, steps: int) -> str:
-
-        for step in range(steps):
-            
+        for _ in range(steps):
             if not self.previous_sites:
                 break
 
@@ -24,10 +23,9 @@ class BrowserHistory:
 
         return self.current_site
 
-    def forward(self, steps: int) -> str:
 
-        for step in range(steps):
-            
+    def forward(self, steps: int) -> str:
+        for _ in range(steps):
             if not self.forward_sites:
                 break
 
