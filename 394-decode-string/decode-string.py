@@ -1,33 +1,26 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        stack = [ ]
 
-        for idx in range(len(s)):
-            char = s[idx]
+        stack = []
 
-            if char != ']':
-                stack.append(char)
-            
-            else:
-                string_to_be_built = ""
-
-                while stack and stack[-1] != '[':
-                    string_to_be_built = stack.pop() + string_to_be_built
+        for char in s:
+            if char == ']':
+                str_build = ''
+                while stack[-1] != '[':
+                    str_build = stack.pop()+str_build
 
                 stack.pop()
-                
-                
-                multiplier = ""
+                if not stack[-1].isdigit():
+                    continue
+                num_build = ''
                 while stack and stack[-1].isdigit():
-                    multiplier = stack.pop() + multiplier
+                    num_build = stack.pop()+num_build
+                
+                stack.append(int(num_build)*str_build)
 
-                multiplier = int(multiplier)
-                stack.append(multiplier*string_to_be_built)
-
+            else:
+                stack.append(char)
 
         return ''.join(stack)
-                
 
-
-                
 
