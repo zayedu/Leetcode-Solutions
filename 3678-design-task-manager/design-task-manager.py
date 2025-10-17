@@ -1,54 +1,56 @@
+import heapq
 class TaskManager:
 
     def __init__(self, tasks: List[List[int]]):
-        self.tasks = {} 
-        self.priority = []
-        for userId, taskId, priority in tasks:
-            self.tasks[taskId] = (priority,userId)
-            heapq.heappush(self.priority, (-priority,-taskId,userId))
+        self.tasks = {}
 
+        '''
+        task_id -> [user_id,priority]
+        '''
+        self.heap = []
         
-
+        for user,task,priority in tasks:
+            heapq.heappush(self.heap, (-1*priority,-1*task))
+            self.tasks[task] = [user,priority]
         
 
     def add(self, userId: int, taskId: int, priority: int) -> None:
-        self.tasks[taskId] = (priority,userId)
-
-        heapq.heappush(self.priority,(-priority,-taskId,userId))
-
+        self.tasks[taskId] = [userId, priority]
+        heapq.heappush(self.heap,(-1*priority,-1*taskId))
 
 
     def edit(self, taskId: int, newPriority: int) -> None:
-        userId= self.tasks[taskId][1]
-        self.tasks[taskId] = (newPriority, userId)
-        heapq.heappush(self.priority, (-newPriority, -taskId, userId))
-
+        self.tasks[taskId][1] = newPriority
+        heapq.heappush(self.heap,(-newPriority,-taskId))
+        
 
     def rmv(self, taskId: int) -> None:
-        if taskId in self.tasks:
-            del self.tasks[taskId]
-    
-    def execTop(self) -> int:
+        del self.tasks[taskId]
+        
 
-        while self.priority :
-            negP, negT, userId = heapq.heappop(self.priority)
-            taskId = -negT
-            priority = -negP
-            cur = self.tasks.get(taskId)
-            if cur is None or cur != (priority, userId):
-                continue
-            
-            del self.tasks[taskId]
-            return userId
+    def execTop(self) -> int:
+        
+        while self.heap:
+            priority,task_id = heapq.heappop(self.heap)
+            priority *= -1
+            task_id *= -1
+
+            if task_id in self.tasks and priority == self.tasks[task_id][1]:
+                user_id = self.tasks[task_id][0]
+                del self.tasks[task_id]
+                return user_id
+
+
+
+
+
         return -1
 
 
 
-
-
+# obj.edit(taskId,newPriority)
 # Your TaskManager object will be instantiated and called as such:
 # obj = TaskManager(tasks)
 # obj.add(userId,taskId,priority)
-# obj.edit(taskId,newPriority)
 # obj.rmv(taskId)
 # param_4 = obj.execTop()
