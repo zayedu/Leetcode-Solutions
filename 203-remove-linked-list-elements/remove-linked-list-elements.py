@@ -8,13 +8,12 @@ class Solution:
         dummy = ListNode()
         new_head = dummy
 
-        temp = head
-        while temp:
-            
-            if temp.val != val:
-                dummy.next = ListNode(temp.val)
-                dummy = dummy.next
+        while head:
 
-            temp = temp.next
+            if head.val != val:
+                dummy.next = ListNode(head.val)
+                dummy= dummy.next
+
+            head = head.next
 
         return new_head.next
