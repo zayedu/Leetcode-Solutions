@@ -1,34 +1,46 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        A,B = nums1, nums2
+        
+        n,m = len(nums1),len(nums2)
 
-        if len(A) > len(B):
-            A,B = B,A
+        if n > m:
+            return self.findMedianSortedArrays(nums2,nums1)
 
-        total = len(A)+len(B)
-
+        total = n + m
         half = total//2
 
-        l,r  = 0, len(A) - 1
+        left, right = 0, n - 1
 
         while True:
-            midA = (l+r)//2
-            midB = half - midA-2
 
-            Aleft = A[midA] if midA >= 0 else float('-inf')
-            Aright = A[midA+1] if (midA+1) < len(A) else float('inf')
+            midN = (left+right)//2
 
-            Bleft = B[midB] if midB >= 0 else float('-inf')
-            Bright = B[midB+1] if (midB+1) < len(B) else float('inf')
+            midM = half - midN-2
 
-            if Aleft <= Bright and Bleft <= Aright:
-                if total % 2 ==0:
-                    return (max(Aleft,Bleft) + min(Bright,Aright))/2
+            lower_n = nums1[midN] if midN >=0 else float('-inf')
+            lower_m = nums2[midM] if midM >=0 else float('-inf')
 
-                return min(Aright,Bright)
+            upper_n = nums1[midN+1] if (midN+1) < n else float('inf')
+            upper_m = nums2[midM+1] if (midM+1) < m else float('inf')
 
-            elif Aleft> Bright:
-                r = midA-1 
+            if lower_n <= upper_m and lower_m <= upper_n:
+
+                if total %2 ==1:
+                    #first element in right subarr
+                    return min(upper_n,upper_m)
+
+                else:
+                    smallest_right = min(upper_n,upper_m)
+                    largest_left = max(lower_n,lower_m)
+
+                    return (smallest_right + largest_left) / 2
+
+            elif lower_n > upper_m:
+                right = midN -1
 
             else:
-                l  = midA + 1
+                left = midN+1
+
+
+
+
