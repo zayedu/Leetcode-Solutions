@@ -1,82 +1,66 @@
 class Node:
-    def __init__(self, key, value):
+    def __init__ (self,key,val):
         self.key = key
-        self.value = value
-        self.prev = None
+        self.val = val
         self.next = None
+        self.prev = None
 
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.cache = { }
-        '''
-        key -> Node
-        '''
-        self.head = Node(-1,-1)
-        
+        self.map = {}
 
+        self.head = Node(-1,-1)
         self.tail = Node(-1,-1)
 
         self.head.next = self.tail
         self.tail.prev = self.head
+        
+        self.capacity = capacity
 
     def get(self, key: int) -> int:
+        if key not in self.map:
+            return -1
 
-        if key in self.cache:
-            
-            self.cache[key].prev.next = self.cache[key].next
-            self.cache[key].next.prev = self.cache[key].prev
+        node = self.map[key]
 
-            self.cache[key].next = self.head.next
-            self.cache[key].prev = self.head
+        node.prev.next = node.next
+        node.next.prev = node.prev
 
-            self.head.next.prev = self.cache[key]
-            self.head.next = self.cache[key]
-
-            return self.cache[key].value
-        
-        return -1
-
+        node.next = self.head.next
+        self.head.next = node
+        node.next.prev = node 
+        node.prev = self.head
+        self.map[key] = node
+        return self.map[key].val
 
     def put(self, key: int, value: int) -> None:
 
-        if key in self.cache:
-            self.cache[key].value = value
-            
-            self.cache[key].prev.next = self.cache[key].next
-            self.cache[key].next.prev = self.cache[key].prev
+        if key not in self.map and len(self.map) == self.capacity:
+            # eject LRU element
 
-            self.cache[key].next = self.head.next
-            self.cache[key].prev = self.head
+            last_node = self.tail.prev
+            key_to_delete = last_node.key
+            last_node.prev.next = self.tail
+            self.tail.prev = last_node.prev
 
-            self.head.next.prev = self.cache[key]
-            self.head.next = self.cache[key]
-
-            return
-
-        if len(self.cache) >= self.capacity:
-            key_to_delete = self.tail.prev.key
-
-            self.tail.prev = self.tail.prev.prev
-            self.tail.prev.next = self.tail
-
-            del self.cache[key_to_delete]
-
-        value_holding_node = Node(key, value)
-
-        value_holding_node.next = self.head.next
-        value_holding_node.prev = self.head
-
-        self.head.next.prev = value_holding_node
-        self.head.next = value_holding_node
-
-        self.cache[key] = value_holding_node
-
-
-            
+            del self.map[key_to_delete]
         
+        if key in self.map:
 
+            node = self.map[key]
+
+            node.prev.next = node.next
+            node.next.prev = node.prev
+
+        node = Node(key,value)
+        node.next = self.head.next
+        node.prev= self.head
+
+        node.next.prev =node
+        self.head.next = node
+
+        self.map[key] = node
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
