@@ -16,20 +16,18 @@ class Solution:
 
             if node.child:
 
-                temp = node.next
-                
-                next_node = self.flatten(node.child)
+                next_node  = node.next
+
+                node.next = self.flatten(node.child)
                 node.child = None
-                next_node.prev= node
-                node.next = next_node
+                node.next.prev = node
 
                 while node.next:
                     node = node.next
-                if temp:
-                    temp.prev= node
-                node.next = temp
 
-            else:
-                node= node.next
+                node.next= next_node
+                if node.next:
+                    node.next.prev = node
+            node = node.next
 
         return head
