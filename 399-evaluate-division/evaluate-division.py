@@ -1,44 +1,45 @@
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-
+        
         adj_list = defaultdict(list)
 
         for index in range(len(equations)):
-            adj_list[equations[index][0]].append([equations[index][1],values[index]])
-            adj_list[equations[index][1]].append([equations[index][0],1/values[index]])
+            equation = equations[index]
+            value = values[index]
+
+            adj_list[equation[0]].append([equation[1],value])
+            adj_list[equation[1]].append([equation[0],1/value])
 
         seen = set()
+        def dfs(num,den):
 
-        def dfs(dividend,divisor):
+            if num not in adj_list:
+                return -1.0
 
-            if dividend in seen:
-                return -1
+            seen.add(num)
 
-            edges = adj_list[dividend]
-
-            for denominator,value in edges:
-                
-                if denominator == divisor:
+            for edge,value in adj_list[num]:
+                if edge == den:
                     return value
 
-                seen.add(dividend)
-                v = dfs(denominator,divisor)
-                seen.remove(dividend)
-                if v >= 0:
-                    return value * v
+                if edge not in seen:
+                    v = dfs(edge,den)
 
-            return -1
+                    if v != -1.0:
+                        return v*value
 
+            seen.remove(num)
 
+            return -1.0
         ans = []
-
         for query in queries:
+            seen = set()
             ans.append(dfs(query[0],query[1]))
 
         return ans
 
+                
 
 
-        
 
 
