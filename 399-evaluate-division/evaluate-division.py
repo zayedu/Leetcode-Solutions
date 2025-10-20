@@ -17,23 +17,23 @@ class Solution:
                 return -1.0
 
             seen.add(num)
-
+            ans = -1.0
             for edge,value in adj_list[num]:
                 if edge == den:
-                    return value
+                    ans = value
 
                 if edge not in seen:
                     v = dfs(edge,den)
 
                     if v != -1.0:
-                        return v*value
+                        ans = v*value
 
             seen.remove(num)
 
-            return -1.0
+            return ans
         ans = []
         for query in queries:
-            seen = set()
+
             ans.append(dfs(query[0],query[1]))
 
         return ans
