@@ -6,12 +6,17 @@ class Solution:
             ']':'[',
             '}':'{'
         }
-        stack = []
+
+        stack = [ ]
+
         for char in s:
             if char not in closers:
                 stack.append(char)
             else:
-                if not stack or stack.pop() != closers[char]:
+                if not stack:
+                    return False
+                opener = stack.pop()
+                if opener != closers[char]:
                     return False
 
         return len(stack) == 0
