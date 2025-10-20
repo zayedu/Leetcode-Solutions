@@ -1,44 +1,41 @@
 class Solution:
     def getKth(self, lo: int, hi: int, k: int) -> int:
-        memo = {1: 0}
+        cache = {}
 
-        def getPower(num: int) -> int:
-            if num in memo:
-                return memo[num]
+        def power(num):
+            if num in cache:
+                return cache[num]
 
-            if num % 2 == 0:
-                memo[num] = 1 + getPower(num // 2)
+            if num == 1:
+                return 0
+
+            if num %2:
+                val = 1 + power(3*num+1)
+
             else:
-                memo[num] = 1 + getPower(3 * num + 1)
-
-            return memo[num]
-
-        num_power = defaultdict(int)
-
-        '''
-        num_power should look like int -> power
-        '''
+                val = 1 + power(num/2)
+            cache[num] = val
+            return val
+        
+        power_num = defaultdict(list)
 
         for num in range(lo,hi+1):
-            num_power[num] = getPower(num)
+            power_num[power(num)].append(num)
 
-        ans = [[] for _ in range(max(num_power.values())+1)]
+        buckets = [[] for _ in range(max(power_num.keys())+1)]
 
-        for num, power in num_power.items():
-            ans[power].append(num)
+        for power, nums in power_num.items():
+            buckets[power] = nums
 
-        count = 0
+        count = 0 
 
-        for index in range(len(ans)):
-            if not ans[index]:
+        for bucket in buckets:
+            if not bucket:
                 continue
 
-            if count + len(ans[index]) >= k:
-                vals = sorted(ans[index])
+            if k - count <= len(bucket):
+                bucket.sort()
+                return bucket[k-count-1]
 
-                return vals[k-count-1]
 
-            count += len(ans[index])
-
-        
-            
+            count += len(bucket)
