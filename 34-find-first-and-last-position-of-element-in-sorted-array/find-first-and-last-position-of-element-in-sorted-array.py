@@ -2,33 +2,48 @@ class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         if not nums:
             return [-1,-1]
-        l,r = 0, len(nums)-1
+        def find_first_occurence():
 
-        while l <r:
+            l,r = 0, len(nums)-1
 
-            mid = (l+r)//2
+            while l < r:
+                mid = (l+r)//2
 
-            if nums[mid] < target:
-                l = mid+1
-            else:
-                r= mid
+                if nums[mid] >= target:
+                    r = mid
+                else:
+                    l = mid+1
 
-        lower = l
+            return l if nums[l] == target else -1
+        
+        def find_last_occurence():
 
-        if nums[lower] != target:
-            return [-1,-1]
+            l,r = 0, len(nums)-1
 
-        l,r = 0,len(nums)-1
-        while l < r:
-            mid = (l+r+1)//2
+            while l < r:
+                mid = (l+r+1)//2
 
-            if nums[mid]< target + 1:
-                l = mid
-            else:
-                r= mid-1
+                if nums[mid] > target:
+                    r = mid-1
+                else:
+                    l = mid
 
-        higher = l
+            return l if nums[l] == target else -1
+            
+         
+        left_point = find_first_occurence()
+        right_point = find_last_occurence()
 
-        if lower<=higher:
-            return [lower,higher]
-        return[-1,-1]
+
+        return [left_point,right_point]
+
+        """
+        [5,7,7,8,8,10]
+                 r
+                 l
+                    
+                    m
+
+
+
+        """
