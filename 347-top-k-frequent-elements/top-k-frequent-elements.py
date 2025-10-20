@@ -1,31 +1,24 @@
-class Solution(object):
-    def topKFrequent(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: List[int]
-        """
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         
-        freq = defaultdict(int)
+        num_count = defaultdict(int)
 
-        for char in nums:
-            freq[char] += 1
+        for num in nums:
+            num_count[num] += 1
 
-        buckets= [[]for _ in range(len(nums)+1)]
+        buckets = [[] for _ in range(max(num_count.values()))]
 
-        for num,count in freq.items():
-            buckets[count].append(num)
+        for num,count in num_count.items():
+            buckets[count-1].append(num)
 
+        top_elements = []
 
-       
-        ans = []
+        for index in range(len(buckets)-1,-1,-1):
+            bucket = buckets[index]
 
-        for i in range(len(nums),-1,-1):
-            
-            for num in buckets[i]:
-                ans.append(num)
+            for num in bucket:
+                if len(top_elements) == k:
+                    return top_elements
+                top_elements.append(num)
 
-            if len(ans) ==k:
-                return ans
-
-        return ans
+        return top_elements
