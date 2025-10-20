@@ -1,29 +1,31 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
         adj_list = defaultdict(list)
 
-        for edge in prerequisites:
-            adj_list[edge[0]].append(edge[1])
+        for course,prereq in prerequisites:
+            adj_list[course].append(prereq)
 
-        visited = set()
+        seen = set()
 
-        def dfs(node):
+        def dfs(course):
 
-            if not adj_list[node]:
-                return True
-
-            if node in visited:
+            if not adj_list[course]:
+                return True 
+            
+            if course in seen:
                 return False
 
-            visited.add(node)
+            seen.add(course)
 
-            for edge in adj_list[node]:
+            for edge in adj_list[course]:
+                
                 if not dfs(edge):
                     return False
-                
-            adj_list[node] = []
-            visited.remove(node)
-                
+
+            seen.remove(course)
+            adj_list[course] = []
+
             return True
 
         for course in range(numCourses):
@@ -31,4 +33,3 @@ class Solution:
                 return False
 
         return True
-
