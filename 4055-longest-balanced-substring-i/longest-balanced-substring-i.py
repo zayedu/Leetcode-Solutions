@@ -1,13 +1,15 @@
 class Solution:
-
     def longestBalanced(self, s: str) -> int:
-        n = len(s)
-        ans = 0
-        for i in range(n):
-            mp = {}
-            for j in range(i, n):
-                mp[s[j]] = mp.get(s[j], 0) + 1
-                if min(mp.values())==max(mp.values()):
-                    l = j - i + 1
-                    ans = max(ans, l)
-        return ans
+        
+        max_len = 0
+
+        for left in range(len(s)):
+
+            count = defaultdict(int)
+            for right in range(left,len(s)):
+                count[s[right]] += 1
+                if min(count.values()) == max(count.values()):
+                    max_len = max(max_len,right-left+1)
+
+
+        return max_len
