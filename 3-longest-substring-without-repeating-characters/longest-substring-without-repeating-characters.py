@@ -1,22 +1,24 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        char_map = {
+
+        char_idx = {
 
         }
-        # char -> last time it appeared
 
-        longest = 0
+        max_len = 0
+
         l = 0
         for r in range(len(s)):
-            if s[r] not in char_map:
-                char_map[s[r]] = r
+
+            if s[r] not in char_idx:
+                char_idx[s[r]] = r
 
             else:
-                while l <= char_map[s[r]]:
+                while l <= char_idx[s[r]]:
                     l += 1
-                char_map[s[r]] = r
 
-            longest = max(longest,r-l+1)
+                char_idx[s[r]] = r
 
-        return longest
-                    
+            max_len = max(max_len,r-l+1)
+
+        return max_len
