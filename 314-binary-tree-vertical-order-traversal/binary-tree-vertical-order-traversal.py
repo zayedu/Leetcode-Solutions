@@ -4,24 +4,32 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
+
 class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
+        vert_ordered_nodes = defaultdict(list)
 
-        col_map = defaultdict(list)  # col -> values in top-to-bottom, left-to-right order
-        q = deque([(root, 0)])
-        min_c = max_c = 0
+        queue = deque([[root,0]])
 
-        while q:
-            node, c = q.popleft()
-            col_map[c].append(node.val)
-            min_c = min(min_c, c)
-            max_c = max(max_c, c)
+        while queue:
+            node,col = queue.popleft()
+
+            vert_ordered_nodes[col].append(node.val)
 
             if node.left:
-                q.append((node.left, c - 1))
-            if node.right:
-                q.append((node.right, c + 1))
+                queue.append([node.left,col-1])
 
-        return [col_map[c] for c in range(min_c, max_c + 1)]
+            if node.right:
+                queue.append([node.right,col+1])
+
+
+        index = min(vert_ordered_nodes.keys())
+        vertical_traversal_order = []
+        while index in vert_ordered_nodes:
+            vertical_traversal_order.append(vert_ordered_nodes[index])
+            index += 1
+
+        return vertical_traversal_order
