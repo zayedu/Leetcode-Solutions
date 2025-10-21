@@ -1,30 +1,30 @@
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
-        pat = { }
+        
+        pattern_map = {} #pattern[index] -> s[index]
 
-        '''
-        pat should look like pattern[char] -> s[word]
-        '''
+        arr_s = s.split(' ')
 
-        arr = s.split()
-        if len(arr) != len(pattern):
+        if len(arr_s) != len(pattern):
             return False
 
-        for i in range(len(arr)):
-            if pattern[i] not in pat and arr[i] not in pat.values():
-                pat[pattern[i]] = arr[i]
-
-            elif arr[i] in pat.values():
-                _key = ''
-                for k,v in pat.items():
-                    if v == arr[i]:
-                        _key = k
-
-                if _key != pattern[i]:
+        for index in range(len(pattern)):
+            if pattern[index] not in pattern_map:
+                if arr_s[index] in pattern_map.values():
                     return False
+
+                pattern_map[pattern[index]] = arr_s[index]
+
             else:
-                if pat[pattern[i]] != arr[i]:
+                if pattern_map[pattern[index]] != arr_s[index]:
                     return False
+                
 
         return True
-        
+
+        """
+        abba 
+
+        dog cat cat dog
+
+        """
