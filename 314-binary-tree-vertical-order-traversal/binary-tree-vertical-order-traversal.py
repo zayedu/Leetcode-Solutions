@@ -10,6 +10,7 @@ class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
+            
         vert_ordered_nodes = defaultdict(list)
 
         queue = deque([[root,0]])
