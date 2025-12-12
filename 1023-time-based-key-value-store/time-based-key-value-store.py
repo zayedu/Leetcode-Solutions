@@ -29,7 +29,7 @@ class TimeMap:
 
         time = times[low -1]
 
-        return self.values[(key,time)]
+        return self.values.get((key,times[low-1]))
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
