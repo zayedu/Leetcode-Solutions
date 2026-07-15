@@ -1,16 +1,16 @@
 class Solution:
     def countSubstrings(self, s: str) -> int:
-        max_cnt = 0
+        cnt = 0
 
         def _is_palindrome(l, r):
-            cnt = 0
+            nonlocal cnt
             while l >= 0 and r < len(s) and s[l] == s[r]:
-                l -= 1
-                r += 1
-                cnt += 1
-            return cnt
+                    l -= 1
+                    r += 1
+                    cnt += 1
     
         for i in range(len(s)):
-            max_cnt += _is_palindrome(i, i) + _is_palindrome(i, i + 1)
+            _is_palindrome(i, i)
+            _is_palindrome(i, i + 1)
         
-        return max_cnt
+        return cnt
