@@ -36,15 +36,8 @@ class LRUCache:
 
     def put(self, key: int, value: int) -> None:
         if key in self.nodes:
-
-            node = self.nodes[key]
-            node.prev.next = node.next
-            node.next.prev = node.prev
-            self.nodes[key].val = value 
-            node.next = self.head.next
-            self.head.next.prev = node
-            node.prev = self.head
-            self.head.next = node
+            self.nodes[key].val = value
+            self.get(key)
             return
 
         node = Node(key,value)
