@@ -1,45 +1,36 @@
 from collections import deque
-
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        if endWord not in wordList:
-            return 0
-
-        def anon_words(word):
-            words = []
-
+        
+        def _anon_words(word) -> list[str]:
+            anon_words = []
             for index in range(len(word)):
-                word_list = list(word)
+                word_copy = list(word)
+                word_copy[index] = '*'
+                anon_words.append(''.join(word_copy))
 
-                word_list[index] = '*'
-
-                words.append(''.join(word_list))
-
-            return words
+            return anon_words
 
         adj_list = defaultdict(list)
 
         for word in wordList:
-            a_words = anon_words(word)
+            for a_word in _anon_words(word):
+                adj_list[a_word].append(word)
 
-            for anon_word in a_words:
-                adj_list[anon_word].append(word)
 
-        queue = deque([[beginWord,1]])
+        queue = deque([(beginWord,1)])
         seen = set()
+
         while queue:
-
-            word, steps = queue.popleft()
-
+            word,count = queue.popleft()
             if word == endWord:
-                return steps
+                return count
+            a_words = _anon_words(word)
 
-            a_words = anon_words(word)
-
-            seen.add(word)
-
-            for anon_word in a_words:
-                for edge in adj_list[anon_word]:
-                    if edge not in seen:
-                        queue.append([edge,steps+1])
+            for a_word in a_words:
+                for w in adj_list[a_word]:
+                    if w in seen:
+                         continue
+                    seen.add(w)
+                    queue.append((w,count+1))
         return 0
