@@ -1,35 +1,28 @@
+from collections import deque
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        if not prerequisites:
+            return True
         
         adj_list = defaultdict(list)
+        in_deg = [0] * numCourses
 
-        for course,prereq in prerequisites:
-            adj_list[course].append(prereq)
+        for pre,crs in prerequisites:
+            adj_list[pre].append(crs)
+            in_deg[crs] += 1
 
-        seen = set()
-
-        def dfs(course):
-
-            if not adj_list[course]:
-                return True 
-            
-            if course in seen:
-                return False
-
-            seen.add(course)
-
-            for edge in adj_list[course]:
-                
-                if not dfs(edge):
-                    return False
-
-            seen.remove(course)
-            adj_list[course] = []
-
-            return True
-
+        queue = deque()
         for course in range(numCourses):
-            if not dfs(course):
-                return False
+            if in_deg[course] == 0:
+                queue.append(course)
 
-        return True
+        count = 0
+        while queue:
+            leaf = queue.popleft()
+            count += 1
+            for edge in adj_list[leaf]:
+                in_deg[edge] -= 1
+                if in_deg[edge] == 0:
+                    queue.append(edge)
+
+        return count == numCourses
